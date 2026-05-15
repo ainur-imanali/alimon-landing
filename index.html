@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AliMon — финансовый пульс вашей сети</title>
+<meta name="description" content="AliMon следит за вашей сетью ресторанов, магазинов или аптек. Один экран — и вы знаете всё. Без графиков. Без таблиц. Только вердикт.">
+<meta property="og:title" content="AliMon — финансовый пульс вашей сети">
+<meta property="og:description" content="Устали каждое утро собирать цифры? AliMon делает это за вас. Если всё спокойно — он молчит. Если есть проблема — скажет.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alimon.store">
+<meta property="og:image" content="https://alimon.store/og-image.png">
+<link rel="canonical" href="https://alimon.store">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Golos+Text:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080C14;
+  --bg2: #0B1018;
+  --card: #0F1520;
+  --card2: #141E2C;
+  --border: rgba(255,255,255,0.06);
+  --border2: rgba(255,255,255,0.10);
+  --accent: #00E87A;
+  --accent-dim: rgba(0,232,122,0.10);
+  --accent-glow: rgba(0,232,122,0.25);
+  --red: #FF4D6D;
+  --red-dim: rgba(255,77,109,0.10);
+  --yellow: #FFB800;
+  --yellow-dim: rgba(255,184,0,0.10);
+  --blue: #5B9CF6;
+  --text: #F0F4FF;
+  --text2: #8FA4BC;
+  --text3: #5A6B82;
+  --mono: 'Space Mono', monospace;
+  --sans: 'Golos Text', -apple-system, sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ── NAV ── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(8,12,20,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:box-shadow .3s;
+}
+.nav-inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;
+}
+.nav-logo{
+  font-family:var(--sans);font-weight:900;font-size:22px;
+  letter-spacing:-0.5px;color:var(--accent);
+  text-decoration:none;
+}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{
+  color:var(--text2);font-size:14px;font-weight:500;
+  text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover{color:var(--text);}
+.lang-switch{display:flex;gap:4px;}
+.lang-btn{
+  background:none;border:1px solid var(--border);
+  color:var(--text3);font-size:12px;font-weight:600;
+  padding:4px 10px;border-radius:6px;cursor:pointer;
+  font-family:var(--sans);transition:all .2s;
+}
+.lang-btn.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
+
+/* ── CONTAINER ── */
+.container{max-width:1120px;margin:0 auto;padding:0 24px;}
+
+/* ── HERO ── */
+.hero{
+  padding:140px 0 80px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-200px;right:-300px;
+  width:800px;height:800px;
+  background:radial-gradient(circle,rgba(0,232,122,0.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1fr 380px;gap:60px;align-items:center;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent-dim);border:1px solid rgba(0,232,122,0.15);
+  border-radius:100px;padding:6px 16px 6px 8px;
+  font-size:12px;font-weight:600;color:var(--accent);
+  letter-spacing:0.5px;margin-bottom:20px;
+}
+.hero-badge-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--accent);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.hero h1{
+  font-size:48px;font-weight:900;letter-spacing:-1.5px;
+  line-height:1.1;margin-bottom:20px;
+}
+.hero h1 .accent{color:var(--accent);}
+.hero-sub{
+  font-size:18px;color:var(--text2);line-height:1.7;
+  margin-bottom:32px;max-width:520px;
+}
+.hero-cta-row{display:flex;gap:12px;flex-wrap:wrap;}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent);color:var(--bg);
+  font-family:var(--sans);font-size:15px;font-weight:700;
+  padding:14px 28px;border-radius:12px;border:none;
+  cursor:pointer;text-decoration:none;
+  box-shadow:0 4px 24px var(--accent-glow);
+  transition:transform .2s,box-shadow .2s;
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px var(--accent-glow);}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:var(--text);
+  font-family:var(--sans);font-size:15px;font-weight:600;
+  padding:14px 28px;border-radius:12px;
+  border:1px solid var(--border2);
+  cursor:pointer;text-decoration:none;transition:all .2s;
+}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── PHONE MOCKUP ── */
+.phone-mock{
+  width:320px;
+  background:var(--card);
+  border:1px solid var(--border2);
+  border-radius:36px;
+  padding:16px;
+  box-shadow:0 40px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.04);
+  position:relative;
+}
+.phone-notch{
+  width:120px;height:28px;
+  background:var(--bg);border-radius:0 0 16px 16px;
+  margin:0 auto 12px;
+}
+.phone-screen{
+  background:var(--bg);border-radius:20px;
+  padding:20px 16px;min-height:400px;
+}
+.phone-greeting{
+  font-size:20px;font-weight:700;margin-bottom:4px;
+}
+.phone-sub{font-size:12px;color:var(--text2);margin-bottom:16px;}
+.phone-kpi{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin-bottom:12px;
+}
+.phone-kpi-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:10px 12px;
+}
+.phone-kpi-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;}
+.phone-kpi-value{font-family:var(--mono);font-size:18px;font-weight:700;margin-top:4px;}
+.phone-kpi-delta{font-size:10px;font-weight:600;margin-top:2px;}
+.phone-kpi-delta.up{color:var(--accent);}
+.phone-kpi-delta.down{color:var(--red);}
+.phone-alert{
+  background:var(--accent-dim);border:1px solid rgba(0,232,122,0.15);
+  border-radius:12px;padding:10px 12px;
+  font-size:12px;color:var(--accent);
+  display:flex;align-items:flex-start;gap:8px;
+}
+.phone-alert-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--accent);flex-shrink:0;margin-top:3px;
+}
+
+/* ── SOCIAL PROOF ── */
+.proof-bar{
+  padding:40px 0;border-bottom:1px solid var(--border);
+}
+.proof-inner{
+  display:flex;align-items:center;justify-content:center;
+  gap:48px;flex-wrap:wrap;
+}
+.proof-stat{text-align:center;}
+.proof-num{
+  font-family:var(--mono);font-size:32px;font-weight:700;
+  color:var(--accent);
+}
+.proof-label{font-size:13px;color:var(--text3);margin-top:2px;}
+.proof-sep{width:1px;height:40px;background:var(--border2);}
+.proof-integrations{display:flex;align-items:center;gap:16px;}
+.proof-integration{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:8px;padding:6px 14px;
+  font-size:13px;font-weight:600;color:var(--text2);
+}
+
+/* ── SECTIONS ── */
+.section{padding:80px 0;}
+.dark-section{background:var(--bg2);padding:80px 0;}
+.section-label{
+  font-size:12px;font-weight:700;color:var(--accent);
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;
+}
+.section-title{
+  font-size:36px;font-weight:900;letter-spacing:-1px;
+  line-height:1.15;margin-bottom:16px;
+}
+.section-desc{
+  font-size:16px;color:var(--text2);line-height:1.7;
+  max-width:640px;margin-bottom:40px;
+}
+
+/* ── PAIN SECTION ── */
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.pain-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:24px;
+  transition:transform .2s,border-color .2s;
+}
+.pain-card:hover{transform:translateY(-2px);border-color:var(--border2);}
+.pain-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;font-size:20px;
+}
+.pain-icon.red{background:var(--red-dim);color:var(--red);}
+.pain-icon.yellow{background:var(--yellow-dim);color:var(--yellow);}
+.pain-icon.blue{background:rgba(91,156,246,0.10);color:var(--blue);}
+.pain-card h3{font-size:16px;font-weight:700;margin-bottom:8px;}
+.pain-card p{font-size:14px;color:var(--text2);line-height:1.6;}
+
+/* ── SOLUTION ── */
+.solution-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.sol-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:28px;position:relative;
+  overflow:hidden;transition:transform .2s;
+}
+.sol-card:hover{transform:translateY(-2px);}
+.sol-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent);
+}
+.sol-num{
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  color:var(--accent);letter-spacing:1px;margin-bottom:12px;
+}
+.sol-card h3{font-size:17px;font-weight:700;margin-bottom:10px;}
+.sol-card p{font-size:14px;color:var(--text2);line-height:1.6;}
+
+/* ── VERDICT CAROUSEL ── */
+.verdict-section{padding:80px 0;}
+.verdict-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.verdict-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:24px;
+  position:relative;
+}
+.verdict-tag{
+  font-size:11px;font-weight:700;letter-spacing:0.5px;
+  padding:4px 10px;border-radius:6px;
+  display:inline-block;margin-bottom:14px;
+}
+.verdict-tag.green{background:var(--accent-dim);color:var(--accent);}
+.verdict-tag.red{background:var(--red-dim);color:var(--red);}
+.verdict-tag.yellow{background:var(--yellow-dim);color:var(--yellow);}
+.verdict-msg{
+  font-size:15px;font-weight:600;line-height:1.5;
+  margin-bottom:10px;
+}
+.verdict-why{
+  font-size:13px;color:var(--text2);line-height:1.5;
+  margin-bottom:10px;padding-bottom:10px;
+  border-bottom:1px solid var(--border);
+}
+.verdict-action{
+  font-size:13px;font-weight:600;color:var(--accent);
+}
+.verdict-footer{
+  font-size:11px;color:var(--text3);margin-top:12px;
+  display:flex;align-items:center;gap:6px;
+}
+
+/* ── STEPS ── */
+.steps-wrapper{position:relative;}
+.steps-line{
+  position:absolute;left:20px;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--accent),var(--border));
+}
+.step{display:flex;gap:24px;margin-bottom:32px;position:relative;}
+.step:last-child{margin-bottom:0;}
+.step-dot{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  background:var(--accent-dim);border:2px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:14px;font-weight:700;
+  color:var(--accent);z-index:1;
+}
+.step-content h3{font-size:17px;font-weight:700;margin-bottom:6px;}
+.step-content p{font-size:14px;color:var(--text2);line-height:1.6;}
+.step-time{
+  display:inline-block;margin-top:8px;
+  font-family:var(--mono);font-size:12px;font-weight:700;
+  color:var(--accent);background:var(--accent-dim);
+  padding:3px 10px;border-radius:6px;
+}
+
+/* ── INDUSTRIES ── */
+.ind-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.ind-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:22px;text-align:center;
+  transition:transform .2s,border-color .2s;
+}
+.ind-card:hover{transform:translateY(-2px);border-color:var(--accent);}
+.ind-card svg{
+  width:32px;height:32px;stroke:var(--accent);stroke-width:1.5;
+  fill:none;stroke-linecap:round;stroke-linejoin:round;
+  margin-bottom:10px;
+}
+.ind-card h4{font-size:14px;font-weight:700;margin-bottom:4px;}
+.ind-card p{font-size:12px;color:var(--text3);}
+
+/* ── FOUNDER TRUST ── */
+.founder-block{
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:20px;padding:40px;
+  display:flex;gap:40px;align-items:center;
+}
+.founder-avatar{
+  width:100px;height:100px;border-radius:24px;
+  background:linear-gradient(135deg,var(--accent),var(--blue));
+  display:flex;align-items:center;justify-content:center;
+  font-size:36px;font-weight:900;color:var(--bg);flex-shrink:0;
+}
+.founder-text h3{font-size:18px;font-weight:700;margin-bottom:8px;}
+.founder-text p{font-size:15px;color:var(--text2);line-height:1.7;margin-bottom:6px;}
+.founder-name{font-size:13px;color:var(--text3);font-weight:500;}
+
+/* ── SECURITY ── */
+.sec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.sec-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:20px;
+  display:flex;align-items:flex-start;gap:14px;
+}
+.sec-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:var(--accent-dim);display:flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+}
+.sec-icon svg{width:20px;height:20px;stroke:var(--accent);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.sec-card h4{font-size:14px;font-weight:700;margin-bottom:4px;}
+.sec-card p{font-size:13px;color:var(--text2);line-height:1.5;}
+
+/* ── PRICING ── */
+.price-card{
+  background:var(--card);border:1px solid var(--border2);
+  border-radius:20px;padding:40px;text-align:center;
+  max-width:560px;margin:0 auto;
+  position:relative;overflow:hidden;
+}
+.price-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--blue));
+}
+.price-philosophy{
+  font-size:13px;font-weight:700;color:var(--accent);
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;
+}
+.price-amount{
+  font-family:var(--mono);font-size:56px;font-weight:700;
+  margin-bottom:4px;
+}
+.price-amount .currency{font-size:24px;color:var(--text2);}
+.price-per{font-size:14px;color:var(--text3);margin-bottom:24px;}
+.price-features{list-style:none;text-align:left;margin-bottom:28px;}
+.price-features li{
+  padding:10px 0;border-bottom:1px solid var(--border);
+  font-size:14px;color:var(--text2);
+  display:flex;align-items:center;gap:10px;
+}
+.price-features li::before{
+  content:'';width:18px;height:18px;flex-shrink:0;
+  border-radius:50%;background:var(--accent-dim);
+  display:flex;align-items:center;justify-content:center;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2300E87A' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:center;
+}
+.price-promo{
+  background:var(--accent-dim);border:1px dashed rgba(0,232,122,0.3);
+  border-radius:10px;padding:12px;margin-bottom:20px;
+  font-size:13px;color:var(--accent);
+}
+.price-promo strong{font-family:var(--mono);font-size:15px;}
+
+/* ── CTA FINAL ── */
+.cta-section{
+  padding:100px 0;text-align:center;
+  background:linear-gradient(180deg,var(--bg2),var(--bg));
+  position:relative;
+}
+.cta-section::before{
+  content:'';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:600px;height:400px;
+  background:radial-gradient(circle,rgba(0,232,122,0.06),transparent 70%);
+  pointer-events:none;
+}
+.cta-section h2{
+  font-size:40px;font-weight:900;letter-spacing:-1px;
+  margin-bottom:16px;position:relative;
+}
+.cta-section .section-desc{margin:0 auto 32px;max-width:500px;text-align:center;}
+.cta-reply{
+  font-size:13px;color:var(--text3);margin-top:16px;
+}
+
+/* ── FOOTER ── */
+.footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:40px 0 24px;
+}
+.footer-inner{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  flex-wrap:wrap;gap:24px;
+}
+.footer-brand{max-width:360px;}
+.footer-logo{
+  font-family:var(--sans);font-weight:900;font-size:18px;
+  color:var(--accent);margin-bottom:8px;
+}
+.footer-desc{font-size:13px;color:var(--text3);line-height:1.6;}
+.footer-links{display:flex;gap:40px;}
+.footer-col h5{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;}
+.footer-col a{display:block;font-size:13px;color:var(--text3);text-decoration:none;margin-bottom:6px;transition:color .2s;}
+.footer-col a:hover{color:var(--accent);}
+.footer-bottom{
+  margin-top:32px;padding-top:20px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;color:var(--text3);flex-wrap:wrap;gap:12px;
+}
+
+/* ── FADE ANIMATION ── */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;text-align:center;}
+  .hero h1{font-size:32px;}
+  .hero-sub{margin:0 auto 24px;}
+  .hero-cta-row{justify-content:center;}
+  .phone-mock{margin:0 auto;}
+  .proof-inner{gap:24px;}
+  .proof-sep{display:none;}
+  .pain-grid,.solution-grid,.verdict-cards{grid-template-columns:1fr;}
+  .ind-grid{grid-template-columns:1fr 1fr;}
+  .sec-grid{grid-template-columns:1fr;}
+  .founder-block{flex-direction:column;text-align:center;padding:28px;}
+  .footer-inner{flex-direction:column;}
+  .footer-links{flex-direction:column;gap:24px;}
+  .nav-links a.desktop-only{display:none;}
+  .cta-section h2{font-size:28px;}
+}
+@media(max-width:480px){
+  .phone-mock{width:280px;}
+  .price-amount{font-size:40px;}
+  .ind-grid{grid-template-columns:1fr;}
+  .hero h1{font-size:28px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">AliMon</a>
+    <div class="nav-links">
+      <a href="#product" class="desktop-only" data-i18n="nav_product">Продукт</a>
+      <a href="#how" class="desktop-only" data-i18n="nav_how">Как работает</a>
+      <a href="#price" class="desktop-only" data-i18n="nav_price">Цена</a>
+      <a href="#security" class="desktop-only" data-i18n="nav_security">Безопасность</a>
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge"><div class="hero-badge-dot"></div> <span data-i18n="hero_badge">УЖЕ ПРОВЕРИЛ. ВСЁ СПОКОЙНО.</span></div>
+        <h1 data-i18n="hero_title">AliMon — как человек,<br>который <span class="accent">просыпается<br>раньше вас.</span></h1>
+        <p class="hero-sub" data-i18n="hero_sub">Пока вы только открываете глаза, AliMon уже проверил точки, собрал цифры, заметил проблему и понял, куда вам сегодня смотреть в первую очередь. Если всё хорошо — молчит. Если нет — скажет коротко: что случилось, почему и что делать.</p>
+        <div class="hero-cta-row">
+          <a href="https://wa.me/77074512390?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%BF%D1%80%D0%BE%20AliMon" class="btn-primary" data-i18n="hero_cta">Хочу спокойные утра</a>
+          <a href="#how" class="btn-secondary" data-i18n="hero_cta2">Как это работает</a>
+        </div>
+        <div class="cta-reply" style="margin-top:12px;font-size:13px;color:var(--text3);" data-i18n="hero_reply">Напишите нам — ответим в течение часа, без давления и без продажи.</div>
+      </div>
+
+      <!-- PHONE MOCKUP -->
+      <div class="phone-mock">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-greeting" data-i18n="mock_greeting">Доброе утро, Айнур</div>
+          <div class="phone-sub" data-i18n="mock_sub">Четверг, 15 мая · Ваша сеть</div>
+          <div class="phone-kpi">
+            <div class="phone-kpi-card">
+              <div class="phone-kpi-label" data-i18n="mock_rev">Выручка</div>
+              <div class="phone-kpi-value" style="color:var(--accent)">12.4M ₸</div>
+              <div class="phone-kpi-delta up">+8.2%</div>
+            </div>
+            <div class="phone-kpi-card">
+              <div class="phone-kpi-label" data-i18n="mock_checks">Чеки</div>
+              <div class="phone-kpi-value">1 847</div>
+              <div class="phone-kpi-delta up">+12%</div>
+            </div>
+            <div class="phone-kpi-card">
+              <div class="phone-kpi-label" data-i18n="mock_avg">Средний чек</div>
+              <div class="phone-kpi-value">6 720 ₸</div>
+              <div class="phone-kpi-delta down">-3.1%</div>
+            </div>
+            <div class="phone-kpi-card">
+              <div class="phone-kpi-label" data-i18n="mock_locs">Точки</div>
+              <div class="phone-kpi-value" style="color:var(--accent)">86</div>
+              <div class="phone-kpi-delta up" data-i18n="mock_all_ok">все работают</div>
+            </div>
+          </div>
+          <div class="phone-alert">
+            <div class="phone-alert-dot"></div>
+            <div data-i18n="mock_alert"><strong>Всё спокойно.</strong> Можешь пить кофе. Выручка на 8% выше плана, все точки работают.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SOCIAL PROOF BAR ═══════════ -->
+<div class="proof-bar">
+  <div class="container">
+    <div class="proof-inner">
+      <div class="proof-stat">
+        <div class="proof-num">86+</div>
+        <div class="proof-label" data-i18n="proof_locs">точек подключено</div>
+      </div>
+      <div class="proof-sep"></div>
+      <div class="proof-stat">
+        <div class="proof-num">4</div>
+        <div class="proof-label" data-i18n="proof_brands">бренда</div>
+      </div>
+      <div class="proof-sep"></div>
+      <div class="proof-stat">
+        <div class="proof-num">7</div>
+        <div class="proof-label" data-i18n="proof_cities">городов</div>
+      </div>
+      <div class="proof-sep"></div>
+      <div class="proof-integrations">
+        <div class="proof-integration">iiko</div>
+        <div class="proof-integration">1C</div>
+        <div class="proof-integration">Jowi</div>
+        <div class="proof-integration">Poster</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PAIN ═══════════ -->
+<section class="section" id="product">
+  <div class="container">
+    <div class="section-label" data-i18n="pain_label">Знакомо?</div>
+    <h2 class="section-title fade-up" data-i18n="pain_title">Как обычно начинается ваше утро</h2>
+    <p class="section-desc fade-up" data-i18n="pain_desc">7 утра. Телефон. WhatsApp. iiko. 1C. Excel. Полчаса собираешь картинку — а потом уже нет сил что-то с ней делать. И так каждый день.</p>
+    <div class="pain-grid">
+      <div class="pain-card fade-up">
+        <div class="pain-icon red">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16v16H4z"/><path d="M4 12h16"/><path d="M12 4v16"/></svg>
+        </div>
+        <h3 data-i18n="p1t">Цифры — везде, картина — нигде</h3>
+        <p data-i18n="p1d">Выручка в iiko. Расходы в 1C. Планы в Excel. Вопросы — в WhatsApp. Вы — единственный, кто пытается собрать это в одну картину.</p>
+      </div>
+      <div class="pain-card fade-up">
+        <div class="pain-icon yellow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3 data-i18n="p2t">Утро уходит на сбор, а не на решения</h3>
+        <p data-i18n="p2d">Вы тратите лучшие 30 минут дня на то, чтобы понять что происходит. А потом уже нет сил действовать. Каждый день.</p>
+      </div>
+      <div class="pain-card fade-up">
+        <div class="pain-icon blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h3 data-i18n="p3t">Проблемы вы узнаёте последним</h3>
+        <p data-i18n="p3d">Выручка упала — узнали через неделю. Списания выросли — через месяц. Вам нужен кто-то, кто заметит это сегодня. За вас.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SOLUTION ═══════════ -->
+<section class="dark-section">
+  <div class="container">
+    <div class="section-label" data-i18n="sol_label">А теперь представьте</div>
+    <h2 class="section-title fade-up" data-i18n="sol_title">AliMon не показывает цифры.<br>Он говорит, что происходит.</h2>
+    <p class="section-desc fade-up" data-i18n="sol_desc">Не отчёт на 10 страниц. Не дашборд, в котором ещё нужно разбираться. Одно короткое сообщение, после которого вы понимаете, что делать.</p>
+    <div class="solution-grid">
+      <div class="sol-card fade-up">
+        <div class="sol-num">ПРАВИЛО 173</div>
+        <h3 data-i18n="s1t">Молчит — значит всё хорошо</h3>
+        <p data-i18n="s1d">Как хороший врач — не звонит, если анализы в норме. AliMon не дёргает вас без повода. Нет сообщения = бизнес дышит. Спокойно занимайтесь своими делами.</p>
+      </div>
+      <div class="sol-card fade-up">
+        <div class="sol-num">AI КОПИЛОТ АЛИ</div>
+        <h3 data-i18n="s2t">Не просто цифры — а что с ними делать</h3>
+        <p data-i18n="s2d">Али не скажет «выручка упала на 12%». Он скажет: «Выручка упала. Причина — точка №7 закрылась на 2 часа раньше. Позвони управляющему.» Вердикт, причина, действие — три предложения.</p>
+      </div>
+      <div class="sol-card fade-up">
+        <div class="sol-num">ЛЮБАЯ СИСТЕМА</div>
+        <h3 data-i18n="s3t">Работает с тем, что у вас уже есть</h3>
+        <p data-i18n="s3d">iiko, 1C, Jowi, Poster, Excel — не надо ничего менять. AliMon подключится к вашей системе и начнёт следить. Как друг, который сам разберётся в ваших делах.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ VERDICT EXAMPLES ═══════════ -->
+<section class="verdict-section">
+  <div class="container">
+    <div class="section-label" data-i18n="verd_label">Вот как это выглядит утром</div>
+    <h2 class="section-title fade-up" data-i18n="verd_title">Три секунды — и вы уже понимаете, где вы нужны</h2>
+    <p class="section-desc fade-up" data-i18n="verd_desc">Не отчёт. Не таблица. Одно сообщение — и вы знаете свой следующий шаг.</p>
+    <div class="verdict-cards">
+      <div class="verdict-card fade-up">
+        <div class="verdict-tag green" data-i18n="v1tag">ВСЁ СПОКОЙНО</div>
+        <div class="verdict-msg" data-i18n="v1msg">Всё спокойно. Выручка в плане. Есть одна точка — посмотри.</div>
+        <div class="verdict-why" data-i18n="v1why">Средний чек вырос на 340₸ после обновления комбо-меню. Две точки в центре бьют рекорды третий день.</div>
+        <div class="verdict-action" data-i18n="v1act">Рекомендация: масштабировать новое комбо на остальные точки сети.</div>
+        <div class="verdict-footer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> <span data-i18n="v1time">Обновлено 3 мин назад</span></div>
+      </div>
+      <div class="verdict-card fade-up">
+        <div class="verdict-tag red" data-i18n="v2tag">НУЖНО ВНИМАНИЕ</div>
+        <div class="verdict-msg" data-i18n="v2msg">Выручка упала. Причина — точка №7 закрылась на 2 часа раньше. Позвони управляющему.</div>
+        <div class="verdict-why" data-i18n="v2why">Списания на точке №12 выросли в 3 раза за 2 дня. Это 187 000₸ — нетипично для этой локации.</div>
+        <div class="verdict-action" data-i18n="v2act">Действие: свяжитесь с управляющим, проверьте оборудование и смену.</div>
+        <div class="verdict-footer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> <span data-i18n="v2time">Обновлено 7 мин назад</span></div>
+      </div>
+      <div class="verdict-card fade-up">
+        <div class="verdict-tag yellow" data-i18n="v3tag">ТРЕНД</div>
+        <div class="verdict-msg" data-i18n="v3msg">Маржинальность второго бренда упала с 64% до 58% за май. Пока не критично, но тренд устойчивый.</div>
+        <div class="verdict-why" data-i18n="v3why">Основная причина — рост закупочной цены курицы на 12% с начала месяца.</div>
+        <div class="verdict-action" data-i18n="v3act">Рекомендация: пересмотрите поставщика или скорректируйте цену блюд на 3–5%.</div>
+        <div class="verdict-footer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> <span data-i18n="v3time">Обновлено 15 мин назад</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ HOW IT WORKS ═══════════ -->
+<section class="dark-section" id="how">
+  <div class="container">
+    <div class="section-label" data-i18n="how_label">Это просто</div>
+    <h2 class="section-title fade-up" data-i18n="how_title">Подключение проще, чем настроить новый кассовый аппарат</h2>
+    <p class="section-desc fade-up" data-i18n="how_desc">Никаких программистов. Никаких интеграторов. Мы сядем вместе — и через полчаса AliMon уже следит за вашей сетью.</p>
+    <div class="steps-wrapper">
+      <div class="steps-line"></div>
+      <div class="step fade-up">
+        <div class="step-dot">1</div>
+        <div class="step-content">
+          <h3 data-i18n="st1">Напишите — просто «Привет»</h3>
+          <p data-i18n="sd1">Одно сообщение в WhatsApp. Мы ответим в течение часа, расскажем всё и поможем разобраться. Без давления, без продажи.</p>
+          <span class="step-time" data-i18n="st1t">1 мин</span>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-dot">2</div>
+        <div class="step-content">
+          <h3 data-i18n="st2">Мы подключимся к вашей системе</h3>
+          <p data-i18n="sd2">Дайте доступ к iiko или 1C — и мы всё настроим. Данные начнут поступать, и AliMon начнёт учиться вашему бизнесу.</p>
+          <span class="step-time" data-i18n="st2t">15 мин</span>
+        </div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-dot">3</div>
+        <div class="step-content">
+          <h3 data-i18n="st3">Утром открываете — и всё понятно</h3>
+          <p data-i18n="sd3">Скачали приложение, вошли — и видите всю сеть. Как она дышит прямо сейчас. Данные обновляются каждые 15 минут.</p>
+          <span class="step-time" data-i18n="st3t">1 мин</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ INDUSTRIES ═══════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-label" data-i18n="ind_label">Для кого</div>
+    <h2 class="section-title fade-up" data-i18n="ind_title">Для тех, кто не может быть везде одновременно</h2>
+    <p class="section-desc fade-up" data-i18n="ind_desc">Не важно, чем именно вы занимаетесь. Важно, что у вас несколько точек, много цифр, разные системы и один человек, который пытается удержать всё под контролем.</p>
+    <div class="ind-grid">
+      <div class="ind-card fade-up">
+        <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z" stroke-linejoin="round"/></svg>
+        <h4 data-i18n="i1">Рестораны и кафе</h4>
+        <p data-i18n="i1d">Сети фастфуда, кофейни, доставка</p>
+      </div>
+      <div class="ind-card fade-up">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+        <h4 data-i18n="i2">Ритейл</h4>
+        <p data-i18n="i2d">Магазины, супермаркеты</p>
+      </div>
+      <div class="ind-card fade-up">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h4 data-i18n="i3">Аптеки</h4>
+        <p data-i18n="i3d">Аптечные сети</p>
+      </div>
+      <div class="ind-card fade-up">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <h4 data-i18n="i4">Услуги</h4>
+        <p data-i18n="i4d">Салоны, клиники, сервисы</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ THE METAPHOR — HEART OF THE LANDING ═══════════ -->
+<section class="dark-section">
+  <div class="container" style="max-width:720px;text-align:center;">
+    <h2 class="section-title fade-up" style="font-size:30px;line-height:1.3;" data-i18n="meta_title">У каждого есть человек, который всё держит в голове</h2>
+    <p class="section-desc fade-up" style="max-width:640px;margin:20px auto 0;font-size:17px;line-height:1.8;text-align:center;color:var(--text2);" data-i18n="meta_text">Есть люди, рядом с которыми спокойно. Они просыпаются раньше, уже знают, кому в школу, кому в сад, что купить на ужин и что приготовить. Они не суетятся, не нагружают лишним, не говорят больше, чем нужно. Они просто держат всё в голове — и рядом с ними становится легче.<br><br><span style="color:var(--accent);font-weight:700;">AliMon — такой человек для вашего бизнеса.</span><br>Он держит в голове всю сеть, чтобы вы не держали её в телефоне, WhatsApp и Excel.</p>
+  </div>
+</section>
+
+<!-- ═══════════ FOUNDER TRUST ═══════════ -->
+<section class="section">
+  <div class="container">
+    <div class="founder-block fade-up">
+      <div class="founder-avatar">A</div>
+      <div class="founder-text">
+        <h3 data-i18n="founder_title">Я сделала AliMon сначала для себя</h3>
+        <p data-i18n="founder_text">Я ждала отчёт от бухгалтера три дня. Искала ошибки в пяти системах. Узнавала о проблеме, когда исправлять было уже дорого. Однажды я подумала: а что если бы кто-то просто сказал мне утром — «вот тут посмотри, остальное в порядке»? Так появился AliMon. Я построила его для себя. А потом поняла — он нужен каждому, кто управляет сетью.</p>
+        <div class="founder-name" data-i18n="founder_name">Айнур Иманалиева · основатель AliMon · AJD GROUP KZ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SECURITY ═══════════ -->
+<section class="section" id="security">
+  <div class="container">
+    <div class="section-label" data-i18n="sec_label">Безопасность</div>
+    <h2 class="section-title fade-up" data-i18n="sec_title">Ваши данные — только ваши.<br>Мы это гарантируем.</h2>
+    <p class="section-desc fade-up" data-i18n="sec_desc">Мы относимся к вашим цифрам как к своим деньгам. Четыре уровня защиты — чтобы вы спали спокойно.</p>
+    <div class="sec-grid">
+      <div class="sec-card fade-up">
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><h4 data-i18n="sc1t">Cloudflare WAF</h4><p data-i18n="sc1d">Внешний щит: DDoS-защита, фильтрация трафика, шифрование TLS 1.3</p></div>
+      </div>
+      <div class="sec-card fade-up">
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <div><h4 data-i18n="sc2t">Шифрование AES-256</h4><p data-i18n="sc2d">Все данные зашифрованы в покое и при передаче. Никто, включая нас, не видит ваши пароли</p></div>
+      </div>
+      <div class="sec-card fade-up">
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div><h4 data-i18n="sc3t">Изоляция данных</h4><p data-i18n="sc3d">Каждый клиент — отдельный сейф. Технически невозможно увидеть чужие данные</p></div>
+      </div>
+      <div class="sec-card fade-up">
+        <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div><h4 data-i18n="sc4t">Аудит каждого действия</h4><p data-i18n="sc4d">Полный журнал: кто, когда и что делал в системе. Прозрачность и контроль</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PRICING ═══════════ -->
+<section class="dark-section" id="price">
+  <div class="container" style="text-align:center;">
+    <div class="section-label" data-i18n="price_label">Цена</div>
+    <h2 class="section-title fade-up" data-i18n="price_title">VIP для каждого</h2>
+    <p class="section-desc fade-up" style="margin:0 auto 40px;text-align:center;" data-i18n="price_desc">Никаких урезанных версий. Каждый клиент получает полный продукт. Все функции включены.</p>
+    <div class="price-card fade-up">
+      <div class="price-philosophy" data-i18n="price_phil">Все функции. Без исключений.</div>
+      <div class="price-amount"><span data-i18n="price_from">от</span> <span style="color:var(--accent)">$29</span></div>
+      <div class="price-per" data-i18n="price_per">за точку / месяц</div>
+      <div class="price-promo" data-i18n="price_promo">Промокод <strong>ALIMON10</strong> — скидка 10% на первые 3 месяца</div>
+      <ul class="price-features">
+        <li data-i18n="pf1">Все функции включены</li>
+        <li data-i18n="pf2">AI копилот Али — анализ и рекомендации</li>
+        <li data-i18n="pf3">Синхронизация каждые 15 минут</li>
+        <li data-i18n="pf4">Неограниченное количество пользователей</li>
+        <li data-i18n="pf5">Чем больше точек — тем дешевле</li>
+      </ul>
+      <a href="https://wa.me/77074512390?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%80%D0%B0%D1%81%D1%81%D1%87%D0%B8%D1%82%D0%B0%D1%82%D1%8C%20%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D1%8C%20AliMon" class="btn-primary" style="width:100%;justify-content:center;" data-i18n="price_cta">Рассчитать стоимость для моей сети</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CTA FINAL ═══════════ -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="fade-up" data-i18n="cta_title">Вы откроете телефон —<br>и сразу будете знать.</h2>
+    <p class="section-desc fade-up" data-i18n="cta_desc">Без Excel. Без звонков. Без тревоги. Просто спокойное утро и ясная картина.<br><br>AliMon не заменяет вас. Он просто встаёт раньше, смотрит внимательнее и вовремя говорит, куда стоит посмотреть.</p>
+    <a href="https://wa.me/77074512390?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B8%D1%82%D1%8C%20AliMon" class="btn-primary fade-up" data-i18n="cta_btn">Хочу спокойные утра — напишите мне</a>
+    <div class="cta-reply fade-up" data-i18n="cta_reply">Ответим в течение часа. Живой человек, не робот.</div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">AliMon</div>
+        <p class="footer-desc" data-i18n="footer_desc">Built in Kazakhstan. Engineered for multi-unit operators.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h5 data-i18n="footer_product">Продукт</h5>
+          <a href="#product" data-i18n="nav_product">Продукт</a>
+          <a href="#how" data-i18n="nav_how">Как работает</a>
+          <a href="#price" data-i18n="nav_price">Цена</a>
+          <a href="#security" data-i18n="nav_security">Безопасность</a>
+        </div>
+        <div class="footer-col">
+          <h5 data-i18n="footer_company">Компания</h5>
+          <a href="https://api.alimon.store/privacy" data-i18n="footer_privacy">Политика конфиденциальности</a>
+          <a href="https://api.alimon.store/terms" data-i18n="footer_terms">Условия использования</a>
+          <a href="mailto:support@alimon.store">support@alimon.store</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 AliMon · ТОО AJD GROUP KZ · БИН 150540026660</span>
+      <span>Основатель — Айнур Иманалиева</span>
+      <span>Алматы, Казахстан</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const translations = {
+  ru: {
+    nav_product:'Продукт', nav_how:'Как работает', nav_price:'Цена', nav_security:'Безопасность',
+    hero_badge:'УЖЕ ПРОВЕРИЛ. ВСЁ СПОКОЙНО.',
+    hero_title:'AliMon — как человек,<br>который <span class="accent">просыпается<br>раньше вас.</span>',
+    hero_sub:'Пока вы только открываете глаза, AliMon уже проверил точки, собрал цифры, заметил проблему и понял, куда вам сегодня смотреть в первую очередь. Если всё хорошо — молчит. Если нет — скажет коротко: что случилось, почему и что делать.',
+    hero_cta:'Хочу спокойные утра',
+    hero_cta2:'Как это работает',
+    hero_reply:'Напишите нам — ответим в течение часа, без давления и без продажи.',
+    mock_greeting:'Доброе утро, Айнур',
+    mock_sub:'Четверг, 15 мая · Ваша сеть',
+    mock_rev:'Выручка', mock_checks:'Чеки', mock_avg:'Средний чек', mock_locs:'Точки',
+    mock_all_ok:'все работают',
+    mock_alert:'<strong>Всё спокойно.</strong> Можешь пить кофе. Выручка на 8% выше плана, все точки работают.',
+    proof_locs:'точек подключено', proof_brands:'бренда', proof_cities:'городов',
+    pain_label:'Знакомо?',
+    pain_title:'Как обычно начинается ваше утро',
+    pain_desc:'7 утра. Телефон. WhatsApp. iiko. 1C. Excel. Полчаса собираешь картинку — а потом уже нет сил что-то с ней делать. И так каждый день.',
+    p1t:'Цифры — везде, картина — нигде', p1d:'Выручка в iiko. Расходы в 1C. Планы в Excel. Вопросы — в WhatsApp. Вы — единственный, кто пытается собрать это в одну картину.',
+    p2t:'Утро уходит на сбор, а не на решения', p2d:'Вы тратите лучшие 30 минут дня на то, чтобы понять что происходит. А потом уже нет сил действовать. Каждый день.',
+    p3t:'Проблемы вы узнаёте последним', p3d:'Выручка упала — узнали через неделю. Списания выросли — через месяц. Вам нужен кто-то, кто заметит это сегодня. За вас.',
+    sol_label:'А теперь представьте',
+    sol_title:'AliMon не показывает цифры.<br>Он говорит, что происходит.',
+    sol_desc:'Не отчёт на 10 страниц. Не дашборд, в котором ещё нужно разбираться. Одно короткое сообщение, после которого вы понимаете, что делать.',
+    s1t:'Молчит — значит всё хорошо', s1d:'Как хороший врач — не звонит, если анализы в норме. AliMon не дёргает вас без повода. Нет сообщения = бизнес дышит. Спокойно занимайтесь своими делами.',
+    s2t:'Не просто цифры — а что с ними делать', s2d:'Али не скажет «выручка упала на 12%». Он скажет: «Выручка упала. Причина — точка №7 закрылась на 2 часа раньше. Позвони управляющему.» Вердикт, причина, действие — три предложения.',
+    s3t:'Работает с тем, что у вас уже есть', s3d:'iiko, 1C, Jowi, Poster, Excel — не надо ничего менять. AliMon подключится к вашей системе и начнёт следить. Как друг, который сам разберётся в ваших делах.',
+    verd_label:'Вот как это выглядит утром',
+    verd_title:'Три секунды — и вы уже понимаете, где вы нужны',
+    verd_desc:'Не отчёт. Не таблица. Одно сообщение — и вы знаете свой следующий шаг.',
+    v1tag:'ВСЁ СПОКОЙНО', v1msg:'Всё спокойно. Выручка в плане. Есть одна точка — посмотри.',
+    v1why:'Средний чек вырос на 340₸ после обновления комбо-меню. Две точки в центре бьют рекорды третий день.', v1act:'Рекомендация: масштабировать новое комбо на остальные точки сети.',
+    v1time:'Обновлено 3 мин назад',
+    v2tag:'НУЖНО ВНИМАНИЕ', v2msg:'Выручка упала. Причина — точка №7 закрылась на 2 часа раньше. Позвони управляющему.',
+    v2why:'Списания на точке №12 выросли в 3 раза за 2 дня. Это 187 000₸ — нетипично для этой локации.',
+    v2act:'Действие: свяжитесь с управляющим, проверьте оборудование и смену.', v2time:'Обновлено 7 мин назад',
+    v3tag:'ТРЕНД', v3msg:'Маржинальность второго бренда упала с 64% до 58% за май. Пока не критично, но тренд устойчивый.',
+    v3why:'Основная причина — рост закупочной цены курицы на 12% с начала месяца.',
+    v3act:'Рекомендация: пересмотрите поставщика или скорректируйте цену блюд на 3–5%.', v3time:'Обновлено 15 мин назад',
+    how_label:'Это просто', how_title:'Подключение проще, чем настроить новый кассовый аппарат',
+    how_desc:'Никаких программистов. Никаких интеграторов. Мы сядем вместе — и через полчаса AliMon уже следит за вашей сетью.',
+    st1:'Напишите — просто «Привет»', sd1:'Одно сообщение в WhatsApp. Мы ответим в течение часа, расскажем всё и поможем разобраться. Без давления, без продажи.',
+    st2:'Мы подключимся к вашей системе', sd2:'Дайте доступ к iiko или 1C — и мы всё настроим. Данные начнут поступать, и AliMon начнёт учиться вашему бизнесу.',
+    st3:'Утром открываете — и всё понятно', sd3:'Скачали приложение, вошли — и видите всю сеть. Как она дышит прямо сейчас. Данные обновляются каждые 15 минут.',
+    st1t:'1 мин', st2t:'15 мин', st3t:'1 мин',
+    ind_label:'Для кого', ind_title:'Для тех, кто не может быть везде одновременно',
+    ind_desc:'Не важно, чем именно вы занимаетесь. Важно, что у вас несколько точек, много цифр, разные системы и один человек, который пытается удержать всё под контролем.',
+    i1:'Рестораны и кафе', i1d:'Сети фастфуда, кофейни, доставка',
+    i2:'Ритейл', i2d:'Магазины, супермаркеты',
+    i3:'Аптеки', i3d:'Аптечные сети',
+    i4:'Услуги', i4d:'Салоны, клиники, сервисы',
+    founder_title:'Я сделала AliMon сначала для себя',
+    meta_title:'У каждого есть человек, который всё держит в голове',
+    meta_text:'Есть люди, рядом с которыми спокойно. Они просыпаются раньше, уже знают, кому в школу, кому в сад, что купить на ужин и что приготовить. Они не суетятся, не нагружают лишним, не говорят больше, чем нужно. Они просто держат всё в голове — и рядом с ними становится легче.<br><br><span style="color:var(--accent);font-weight:700;">AliMon — такой человек для вашего бизнеса.</span><br>Он держит в голове всю сеть, чтобы вы не держали её в телефоне, WhatsApp и Excel.',
+    founder_text:'Я ждала отчёт от бухгалтера три дня. Искала ошибки в пяти системах. Узнавала о проблеме, когда исправлять было уже дорого. Однажды я подумала: а что если бы кто-то просто сказал мне утром — «вот тут посмотри, остальное в порядке»? Так появился AliMon. Я построила его для себя. А потом поняла — он нужен каждому, кто управляет сетью.',
+    founder_name:'Айнур Иманалиева · основатель AliMon · AJD GROUP KZ',
+    sec_label:'Безопасность', sec_title:'Ваши данные — только ваши.<br>Мы это гарантируем.',
+    sec_desc:'Мы относимся к вашим цифрам как к своим деньгам. Четыре уровня защиты — чтобы вы спали спокойно.',
+    sc1t:'Cloudflare WAF', sc1d:'Внешний щит: DDoS-защита, фильтрация трафика, шифрование TLS 1.3',
+    sc2t:'Шифрование AES-256', sc2d:'Все данные зашифрованы в покое и при передаче. Никто, включая нас, не видит ваши пароли',
+    sc3t:'Изоляция данных', sc3d:'Каждый клиент — отдельный сейф. Технически невозможно увидеть чужие данные',
+    sc4t:'Аудит каждого действия', sc4d:'Полный журнал: кто, когда и что делал в системе. Прозрачность и контроль',
+    price_label:'Цена', price_title:'VIP для каждого',
+    price_desc:'Никаких урезанных версий. Каждый клиент получает полный продукт. Все функции включены.',
+    price_phil:'Все функции. Без исключений.', price_from:'от', price_per:'за точку / месяц',
+    price_promo:'Промокод <strong>ALIMON10</strong> — скидка 10% на первые 3 месяца',
+    price_cta:'Рассчитать стоимость для моей сети',
+    pf1:'Все функции включены', pf2:'AI копилот Али — анализ и рекомендации',
+    pf3:'Синхронизация каждые 15 минут', pf4:'Неограниченное количество пользователей',
+    pf5:'Чем больше точек — тем дешевле',
+    cta_title:'Вы откроете телефон —<br>и сразу будете знать.',
+    cta_desc:'Без Excel. Без звонков. Без тревоги. Просто спокойное утро и ясная картина.<br><br>AliMon не заменяет вас. Он просто встаёт раньше, смотрит внимательнее и вовремя говорит, куда стоит посмотреть.',
+    cta_btn:'Хочу спокойные утра — напишите мне',
+    cta_reply:'Ответим в течение часа. Живой человек, не робот.',
+    footer_desc:'Built in Kazakhstan. Engineered for multi-unit operators.',
+    footer_product:'Продукт', footer_company:'Компания',
+    footer_privacy:'Политика конфиденциальности', footer_terms:'Условия использования'
+  },
+  en: {
+    nav_product:'Product', nav_how:'How it works', nav_price:'Pricing', nav_security:'Security',
+    hero_badge:'ALREADY CHECKED. ALL CLEAR.',
+    hero_title:'AliMon is like someone<br>who <span class="accent">wakes up<br>before you.</span>',
+    hero_sub:'While you\'re still opening your eyes, AliMon has already checked your locations, collected the numbers, spotted the problem and figured out where you need to look first today. If everything\'s fine — stays quiet. If not — tells you briefly: what happened, why, and what to do.',
+    hero_cta:'I want calm mornings',
+    hero_cta2:'How it works',
+    hero_reply:'Write us — we\'ll respond within an hour. No pressure, no hard sell.',
+    mock_greeting:'Good morning, Alex',
+    mock_sub:'Thursday, May 15 · Your chain',
+    mock_rev:'Revenue', mock_checks:'Checks', mock_avg:'Avg check', mock_locs:'Locations',
+    mock_all_ok:'all running',
+    mock_alert:'<strong>All clear.</strong> Grab your coffee. Revenue is 8% above plan, all locations running.',
+    proof_locs:'locations connected', proof_brands:'brands', proof_cities:'cities',
+    pain_label:'Sound familiar?',
+    pain_title:'How your morning usually starts',
+    pain_desc:'7 AM. Phone. WhatsApp. iiko. 1C. Excel. Thirty minutes to piece together the picture — and then no energy left to act on it. Every single day.',
+    p1t:'Numbers everywhere, big picture nowhere', p1d:'Revenue in iiko. Expenses in 1C. Plans in Excel. Questions in WhatsApp. You\'re the only one trying to put it all together.',
+    p2t:'Mornings spent collecting, not deciding', p2d:'You spend the best 30 minutes of your day figuring out what\'s happening. Then you\'re too drained to act. Every day.',
+    p3t:'You\'re the last to know about problems', p3d:'Revenue dropped — you found out a week later. Write-offs spiked — a month later. You need someone who catches it today. For you.',
+    sol_label:'Now imagine',
+    sol_title:'AliMon doesn\'t show numbers.<br>It tells you what\'s happening.',
+    sol_desc:'Not a 10-page report. Not a dashboard you still need to figure out. One short message, and you know what to do.',
+    s1t:'Silent means everything\'s fine', s1d:'Like a good doctor — doesn\'t call if your results are normal. AliMon won\'t bother you without reason. No message = business is breathing. Go about your day.',
+    s2t:'Not just numbers — what to do about them', s2d:'Ali won\'t say "revenue dropped 12%." He\'ll say: "Revenue dropped. Cause — location #7 closed 2 hours early. Call the manager." Verdict, reason, action — three sentences.',
+    s3t:'Works with what you already have', s3d:'iiko, 1C, Jowi, Poster, Excel — no need to change anything. AliMon connects to your system and starts watching. Like a friend who figures out your business on their own.',
+    verd_label:'Here\'s what it looks like in the morning',
+    verd_title:'Three seconds — and you know where you\'re needed',
+    verd_desc:'Not a report. Not a table. One message — and you know your next move.',
+    v1tag:'ALL CLEAR', v1msg:'All clear. Revenue on plan. One location to check.',
+    v1why:'Average check grew by 340₸ after the new combo menu. Two downtown spots breaking records for 3 days.', v1act:'Recommendation: scale the new combo to all other locations.',
+    v1time:'Updated 3 min ago',
+    v2tag:'NEEDS ATTENTION', v2msg:'Revenue dropped. Cause — location #7 closed 2 hours early. Call the manager.',
+    v2why:'Write-offs at location #12 tripled in 2 days. That\'s 187,000₸ — unusual for this spot.',
+    v2act:'Action: contact the manager, check equipment and the shift.', v2time:'Updated 7 min ago',
+    v3tag:'TREND', v3msg:'Second brand margin dropped from 64% to 58% in May. Not critical yet, but the trend is consistent.',
+    v3why:'Main cause — chicken purchase price increased 12% since the start of the month.',
+    v3act:'Recommendation: review supplier or adjust menu prices by 3–5%.', v3time:'Updated 15 min ago',
+    how_label:'It\'s simple', how_title:'Easier to set up than a new cash register',
+    how_desc:'No developers. No integrators. We\'ll sit down together — and in 30 minutes AliMon is watching your chain.',
+    st1:'Write us — just say "Hi"', sd1:'One WhatsApp message. We\'ll respond within an hour, explain everything, and help you figure it out. No pressure, no hard sell.',
+    st2:'We connect to your system', sd2:'Give us access to iiko or 1C — we\'ll set everything up. Data starts flowing, and AliMon begins learning your business.',
+    st3:'Open it in the morning — and everything\'s clear', sd3:'Downloaded the app, logged in — and you see your whole chain. How it\'s breathing right now. Data updates every 15 minutes.',
+    st1t:'1 min', st2t:'15 min', st3t:'1 min',
+    ind_label:'Who it\'s for', ind_title:'For those who can\'t be everywhere at once',
+    ind_desc:'Doesn\'t matter what industry you\'re in. What matters is you have multiple locations, lots of numbers, different systems and one person trying to hold it all together.',
+    i1:'Restaurants & cafes', i1d:'Fast food chains, coffee shops, delivery',
+    i2:'Retail', i2d:'Stores, supermarkets',
+    i3:'Pharmacies', i3d:'Pharmacy chains',
+    i4:'Services', i4d:'Salons, clinics, service businesses',
+    founder_title:'I built AliMon for myself first',
+    meta_title:'Everyone has that person who keeps everything in their head',
+    meta_text:'There are people who make you feel calm just by being around. They wake up earlier, already know who goes to school, who goes to daycare, what to buy for dinner and what to cook. They don\'t fuss, don\'t overload you, don\'t say more than needed. They just keep everything in their head — and life gets easier around them.<br><br><span style="color:var(--accent);font-weight:700;">AliMon is that person for your business.</span><br>It keeps your whole chain in its head, so you don\'t have to keep it in your phone, WhatsApp and Excel.',
+    founder_text:'I waited three days for the accountant\'s report. Searched for errors in five systems. Found out about problems when fixing them was already expensive. One day I thought: what if someone just told me in the morning — "look here, everything else is fine"? That\'s how AliMon was born. I built it for myself. Then realized every chain owner needs it.',
+    founder_name:'Ainur Imanaliyeva · founder of AliMon · AJD GROUP KZ',
+    sec_label:'Security', sec_title:'Your data is yours alone.<br>We guarantee it.',
+    sec_desc:'We treat your numbers like our own money. Four layers of protection — so you can sleep peacefully.',
+    sc1t:'Cloudflare WAF', sc1d:'External shield: DDoS protection, traffic filtering, TLS 1.3 encryption',
+    sc2t:'AES-256 Encryption', sc2d:'All data encrypted at rest and in transit. Nobody, including us, can see your passwords',
+    sc3t:'Data Isolation', sc3d:'Every client is a separate vault. Technically impossible to see another client\'s data',
+    sc4t:'Full Audit Trail', sc4d:'Complete log: who did what and when. Transparency and control',
+    price_label:'Pricing', price_title:'VIP for everyone',
+    price_desc:'No stripped-down versions. Every client gets the full product. All features included.',
+    price_phil:'All features. No exceptions.', price_from:'from', price_per:'per location / month',
+    price_promo:'Promo code <strong>ALIMON10</strong> — 10% off your first 3 months',
+    price_cta:'Calculate the price for my chain',
+    pf1:'All features included', pf2:'AI copilot Ali — analysis and recommendations',
+    pf3:'Sync every 15 minutes', pf4:'Unlimited users',
+    pf5:'Volume discounts as you grow',
+    cta_title:'You\'ll open your phone —<br>and just know.',
+    cta_desc:'No Excel. No calls. No anxiety. Just a calm morning and a clear picture.<br><br>AliMon doesn\'t replace you. It just wakes up earlier, looks more carefully, and tells you in time where to look.',
+    cta_btn:'I want calm mornings — write me',
+    cta_reply:'We\'ll respond within an hour. A real person, not a bot.',
+    footer_desc:'Built in Kazakhstan. Engineered for multi-unit operators.',
+    footer_product:'Product', footer_company:'Company',
+    footer_privacy:'Privacy Policy', footer_terms:'Terms of Service'
+  }
+};
+
+let currentLang = 'ru';
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.trim().toLowerCase() === lang));
+  document.documentElement.lang = lang;
+  const t = translations[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.placeholder = t[key];
+      else el.innerHTML = t[key];
+    }
+  });
+}
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }});
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Nav shadow on scroll
+window.addEventListener('scroll', () => {
+  document.querySelector('.nav').style.boxShadow = window.scrollY > 50 ? '0 4px 30px rgba(0,0,0,.3)' : 'none';
+});
+</script>
+
+</body>
+</html>
