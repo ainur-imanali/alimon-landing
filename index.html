@@ -388,6 +388,7 @@ footer .copyright {
 .animate-d2 { animation-delay: 0.2s; }
 .animate-d3 { animation-delay: 0.3s; }
 </style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 
 <body>
@@ -739,6 +740,8 @@ footer .copyright {
 
       <div id="regGlobalError" style="color:var(--red);font-size:13px;text-align:center;margin-top:8px;display:none;"></div>
 
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAADWFiBuFFe1f189A" data-theme="dark" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" style="margin-top:16px;display:flex;justify-content:center;"></div>
+      <div class="form-error" id="errTurnstile" style="text-align:center;"></div>
       <button class="form-submit" id="regSubmit" onclick="submitRegister()" data-i="m_submit">Начать бесплатно</button>
 
       <p style="font-size:12px;color:var(--text3);text-align:center;margin-top:16px;line-height:1.5;" data-i="m_terms">
@@ -813,6 +816,13 @@ async function submitRegister() {
 
   if (!valid) return;
 
+  // Turnstile check
+const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+if (!turnstileToken) {
+  showErr('errTurnstile', lang==='ru' ? 'Пожалуйста, подтвердите что вы не робот' : 'Please verify you are not a robot');
+  return;
+}
+
   btn.disabled = true;
   btn.textContent = lang==='ru' ? 'Создаём аккаунт...' : 'Creating account...';
 
@@ -826,6 +836,7 @@ async function submitRegister() {
         email: fields.email,
         phone: fields.phone,
         password: fields.password,
+        turnstileToken: turnstileToken,
       }),
     });
 
@@ -993,6 +1004,12 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   });
 });
+
+// ── Turnstile callbacks ──
+let turnstileOk = false;
+function onTurnstileSuccess(token) { turnstileOk = true; }
+function onTurnstileExpired() { turnstileOk = false; }
+
 </script>
 
 </body>
