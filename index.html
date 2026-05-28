@@ -368,6 +368,24 @@ footer .copyright {
   font-size: 12px; color: var(--text3); margin-top: 16px;
 }
 
+/* ── Form selects (Session #55) ── */
+.form-select {
+  width: 100%; padding: 12px 14px; font-size: 15px;
+  font-family: var(--body); color: var(--text);
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; outline: none; transition: border-color 0.2s;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A6B82' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+  cursor: pointer;
+}
+.form-select:focus { border-color: var(--accent); }
+.form-row { display: flex; gap: 12px; }
+.form-half { flex: 1; }
+@media (max-width: 600px) {
+  .form-row { flex-direction: column; gap: 0; }
+}
+
 /* ── Responsive ── */
 @media (max-width: 600px) {
   .hero { padding: 120px 20px 60px; }
@@ -708,6 +726,45 @@ footer .copyright {
       <h2 id="regModalTitle" data-i="m_title">Подключить бизнес</h2>
       <p class="modal-sub" data-i="m_sub">7 дней бесплатно. Без карты. Отмена в один клик.</p>
 
+      <div class="form-row">
+        <div class="form-group form-half">
+          <label data-i="m_country">Страна</label>
+          <select id="regCountry" class="form-select" onchange="onCountryChange()">
+            <option value="KZ">Казахстан</option>
+            <option value="UZ">Узбекистан</option>
+            <option value="KG">Кыргызстан</option>
+            <option value="TJ">Таджикистан</option>
+            <option value="RU">Россия</option>
+            <option value="AE">ОАЭ / UAE</option>
+            <option value="TR">Türkiye</option>
+            <option value="US">USA</option>
+            <option value="GB">United Kingdom</option>
+          </select>
+        </div>
+        <div class="form-group form-half">
+          <label data-i="m_city">Город</label>
+          <select id="regCity" class="form-select">
+            <option value="">—</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label data-i="m_btype">Тип бизнеса</label>
+        <select id="regBusinessType" class="form-select">
+          <option value="" data-i="m_btype_ph">Выберите тип</option>
+          <option value="restaurant">Рестораны / Кафе</option>
+          <option value="fastfood">Фастфуд / Донерные</option>
+          <option value="coffee">Кофейни</option>
+          <option value="pharmacy">Аптеки</option>
+          <option value="retail">Розничная торговля</option>
+          <option value="service">Услуги</option>
+          <option value="production">Производство</option>
+          <option value="other">Другое</option>
+        </select>
+        <div class="form-error" id="errBusinessType"></div>
+      </div>
+
       <div class="form-group">
         <label data-i="m_company">Название компании</label>
         <input type="text" id="regCompany" placeholder="ТОО Мой Бизнес" autocomplete="organization">
@@ -733,7 +790,7 @@ footer .copyright {
       </div>
 
       <div class="form-group">
-        <label data-i="m_pass">Пароль (минимум 8 символов)</label>
+        <label data-i="m_pass">Пароль (минимум 8 символов, заглавная, цифра)</label>
         <input type="password" id="regPassword" placeholder="••••••••" autocomplete="new-password">
         <div class="form-error" id="errPassword"></div>
       </div>
@@ -762,10 +819,63 @@ footer .copyright {
 
 <script>
 // ============================================================
-// AliMon Landing v3 — Registration + i18n
+// AliMon Landing v3.1 — Registration + i18n + Country/City
+// Session #55 · 28 May 2026
 // ============================================================
 
 const API = 'https://api.alimon.store/api/v1/auth/register';
+
+// ── Country → Cities mapping ──
+const COUNTRY_CITIES = {
+  KZ: ['Алматы','Астана','Шымкент','Караганда','Актобе','Тараз','Павлодар','Атырау','Актау','Семей','Костанай','Кызылорда','Петропавловск','Туркестан','Другой'],
+  UZ: ['Ташкент','Самарканд','Бухара','Наманган','Фергана','Андижан','Другой'],
+  KG: ['Бишкек','Ош','Джалал-Абад','Другой'],
+  TJ: ['Душанбе','Худжанд','Другой'],
+  RU: ['Москва','Санкт-Петербург','Новосибирск','Екатеринбург','Казань','Краснодар','Другой'],
+  AE: ['Dubai','Abu Dhabi','Sharjah','Ajman','Other'],
+  TR: ['Istanbul','Ankara','Izmir','Antalya','Bursa','Other'],
+  US: ['New York','Los Angeles','Chicago','Houston','Miami','Other'],
+  GB: ['London','Manchester','Birmingham','Edinburgh','Other'],
+};
+
+const PHONE_MASKS = {
+  KZ: '+7 7XX XXX XX XX', UZ: '+998 XX XXX XX XX', KG: '+996 XXX XXX XXX',
+  TJ: '+992 XX XXX XX XX', RU: '+7 XXX XXX XX XX', AE: '+971 XX XXX XXXX',
+  TR: '+90 XXX XXX XX XX', US: '+1 XXX XXX XXXX', GB: '+44 XXXX XXX XXX',
+};
+
+function onCountryChange() {
+  const country = document.getElementById('regCountry').value;
+  const citySelect = document.getElementById('regCity');
+  const cities = COUNTRY_CITIES[country] || ['Other'];
+
+  citySelect.innerHTML = '';
+  cities.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    citySelect.appendChild(opt);
+  });
+
+  // Update phone placeholder
+  const phoneInput = document.getElementById('regPhone');
+  phoneInput.placeholder = PHONE_MASKS[country] || '+XXX XXX XXX XXXX';
+}
+
+// Auto-detect country by IP (best effort, non-blocking)
+async function detectCountry() {
+  try {
+    const res = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) });
+    const data = await res.json();
+    if (data.country_code && COUNTRY_CITIES[data.country_code]) {
+      document.getElementById('regCountry').value = data.country_code;
+      onCountryChange();
+    }
+  } catch { /* silent — default KZ */ }
+}
+
+// Init cities on page load
+onCountryChange();
+detectCountry();
 
 // ── Registration Modal ──
 function openRegister() {
@@ -793,11 +903,14 @@ document.addEventListener('keydown', function(e) {
 async function submitRegister() {
   const btn = document.getElementById('regSubmit');
   const fields = {
+    countryCode: document.getElementById('regCountry').value,
+    city: document.getElementById('regCity').value,
+    businessType: document.getElementById('regBusinessType').value,
     company: document.getElementById('regCompany').value.trim(),
-    name:    document.getElementById('regName').value.trim(),
-    email:   document.getElementById('regEmail').value.trim(),
-    phone:   document.getElementById('regPhone').value.trim(),
-    password:document.getElementById('regPassword').value,
+    name: document.getElementById('regName').value.trim(),
+    email: document.getElementById('regEmail').value.trim(),
+    phone: document.getElementById('regPhone').value.trim(),
+    password: document.getElementById('regPassword').value,
   };
 
   // Clear errors
@@ -808,20 +921,21 @@ async function submitRegister() {
   let valid = true;
   const lang = currentLang;
 
+  if (!fields.businessType) { showErr('errBusinessType', lang==='ru'?'Выберите тип бизнеса':'Select business type'); valid=false; }
   if (!fields.company) { showErr('errCompany', lang==='ru'?'Укажите название компании':'Enter company name'); valid=false; }
   if (!fields.name) { showErr('errName', lang==='ru'?'Укажите ваше имя':'Enter your name'); valid=false; }
   if (!fields.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) { showErr('errEmail', lang==='ru'?'Укажите корректный email':'Enter valid email'); valid=false; }
   if (!fields.phone || fields.phone.length < 10) { showErr('errPhone', lang==='ru'?'Укажите телефон':'Enter phone number'); valid=false; }
-  if (!fields.password || fields.password.length < 8) { showErr('errPassword', lang==='ru'?'Минимум 8 символов':'At least 8 characters'); valid=false; }
+  if (!fields.password || fields.password.length < 8) { showErr('errPassword', lang==='ru'?'Минимум 8 символов, заглавная, цифра':'Min 8 chars, uppercase, digit'); valid=false; }
 
   if (!valid) return;
 
   // Turnstile check
-const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
-if (!turnstileToken) {
-  showErr('errTurnstile', lang==='ru' ? 'Пожалуйста, подтвердите что вы не робот' : 'Please verify you are not a robot');
-  return;
-}
+  const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+  if (!turnstileToken) {
+    showErr('errTurnstile', lang==='ru' ? 'Пожалуйста, подтвердите что вы не робот' : 'Please verify you are not a robot');
+    return;
+  }
 
   btn.disabled = true;
   btn.textContent = lang==='ru' ? 'Создаём аккаунт...' : 'Creating account...';
@@ -836,6 +950,9 @@ if (!turnstileToken) {
         email: fields.email,
         phone: fields.phone,
         password: fields.password,
+        countryCode: fields.countryCode,
+        city: fields.city,
+        businessType: fields.businessType,
         turnstileToken: turnstileToken,
       }),
     });
@@ -892,79 +1009,54 @@ const translations = {
     sol_title: 'AliMon turns numbers into decisions',
     sol_sub: "Every 15 minutes AliMon checks sales, shifts, plans, locations and deviations. If everything is fine — no distraction. If there's a risk — a short verdict and an action.",
     formula1: 'What happened', formula2: 'Why it matters', formula3: 'What to do today',
-    v_greet: 'Good morning, ',
-    v_name: 'Ainur',
-    v_date: 'May 25, Monday',
-    v_rev: 'Revenue',
-    v_checks: 'Checks',
-    v_avg: 'Avg check',
-    v1_tag: 'REVENUE',
-    v1_msg: 'Network is 8% above plan. Two downtown locations are breaking records for the third day.',
+    v_greet: 'Good morning, ', v_name: 'Ainur', v_date: 'May 25, Monday',
+    v_rev: 'Revenue', v_checks: 'Checks', v_avg: 'Avg check',
+    v1_tag: 'REVENUE', v1_msg: 'Network is 8% above plan. Two downtown locations are breaking records for the third day.',
     v1_act: '→ Scale the new combo to all locations',
-    v2_tag: 'WRITE-OFFS',
-    v2_msg: 'Location #12: write-offs tripled in 2 days. That\'s ₸187,000 — unusual for this location.',
+    v2_tag: 'WRITE-OFFS', v2_msg: 'Location #12: write-offs tripled in 2 days. That\'s ₸187,000 — unusual for this location.',
     v2_act: '→ Contact location #12 manager',
     rule_title: 'The Rule of Silence',
     rule_text: "If AliMon is silent — everything is fine. No notifications, no reports, no noise. AliMon speaks only when action is needed.",
-    how_label: 'Getting started',
-    how_title: 'Three steps — and AliMon is watching',
-    step1_title: 'Register',
-    step1_text: 'Enter your name, phone and email. Takes 30 seconds.',
+    how_label: 'Getting started', how_title: 'Three steps — and AliMon is watching',
+    step1_title: 'Register', step1_text: 'Enter your name, phone and email. Takes 30 seconds.',
     step2_title: 'Connect your POS system',
     step2_text: 'iiko, 1C, Jowi, Poster, R-Keeper or Excel. Do it yourself or invite your IT — we send them a secure link.',
     step3_title: 'AliMon starts working',
     step3_text: 'AliMon checks your data and shows the first verdict when ready — usually within 15 minutes. After that, data refreshes automatically. You sleep — AliMon doesn\'t.',
-    int_label: 'Supported systems',
-    int_note: '✓ — production. Others — available on request.',
+    int_label: 'Supported systems', int_note: '✓ — production. Others — available on request.',
     founder_quote: 'I didn\'t build AliMon as "yet another dashboard." I built it as the person who protects the owner\'s business every morning. When you have locations, people, money, kids and hundreds of decisions in your head — you don\'t need a report. You need someone who says: "Look here today."',
     founder_name: 'Ainur Imanaliyeva, Founder of AliMon',
-    trust_label: 'Already live',
-    trust_title: 'Proven on a real business',
-    trust_n1: '8', trust_l1: 'months in paid pilot',
-    trust_n2: '60+', trust_l2: 'locations monitored',
+    trust_label: 'Already live', trust_title: 'Proven on a real business',
+    trust_n1: '8', trust_l1: 'months in paid pilot', trust_n2: '60+', trust_l2: 'locations monitored',
     trust_n3: '✓', trust_l3: 'verified against iiko to the penny',
     trust_note: 'Paid pilot. Data matches the POS system to the penny.',
-    whom_label: 'For whom',
-    whom_title: 'For owners whose business can no longer fit in their head',
+    whom_label: 'For whom', whom_title: 'For owners whose business can no longer fit in their head',
     whom1: 'Restaurants & cafes', whom2: 'Fast food & doner', whom3: 'Coffee shops',
     whom4: 'Pharmacies', whom5: 'Convenience stores', whom6: 'Service locations',
     whom7: 'Holdings with multiple brands',
-    after_label: 'What happens after registration',
-    after_title: 'From registration to your first verdict',
+    after_label: 'What happens after registration', after_title: 'From registration to your first verdict',
     after1_title: 'Choose your POS system', after1_text: 'iiko, 1C or Excel — AliMon will guide you.',
     after2_title: 'Connect your data', after2_text: 'By yourself or via your IT specialist. We send them a secure link — they don\'t need AliMon access.',
     after3_title: 'AliMon checks data quality', after3_text: 'Automatic check: sales, locations, correct dates. If something is off — we\'ll let you know.',
     after4_title: 'Confirm your structure', after4_text: 'Verify that AliMon correctly found your locations and brands.',
     after5_title: 'Dashboard opens', after5_text: 'First verdict, first numbers, Ali is ready to answer questions. 7 days free.',
-    price_label: 'Pricing',
-    price_title: 'One lost shift costs more than a month of AliMon',
+    price_label: 'Pricing', price_title: 'One lost shift costs more than a month of AliMon',
     price_sub: 'Transparent pricing per location. An entrepreneur with 1 location gets the same AliMon as a holding with 200.',
-    price_from: 'from',
-    price_per: 'per location / month',
-    pf1: 'Verdict + recommendations every 15 minutes',
-    pf2: 'Ali — AI copilot for your business',
-    pf3: 'Planning and plan vs actual analysis',
-    pf4: 'Unlimited users and roles',
-    pf5: 'Data fortress: encryption, audit, backups',
-    pf6: '7 days free. No card required.',
+    price_from: 'from', price_per: 'per location / month',
+    pf1: 'Verdict + recommendations every 15 minutes', pf2: 'Ali — AI copilot for your business',
+    pf3: 'Planning and plan vs actual analysis', pf4: 'Unlimited users and roles',
+    pf5: 'Data fortress: encryption, audit, backups', pf6: '7 days free. No card required.',
     price_cta: 'Start free',
     price_scale: 'Volume discounts: 2-5 locations — cheaper, 50+ — even cheaper. ',
     price_wa: 'Contact us →',
     reg_title: "Let's make your mornings peaceful",
     reg_sub: 'Register — and AliMon will start watching your business.',
-    reg_cta: 'Connect business',
-    reg_or: 'or message us on WhatsApp',
-    reg_wa: 'Write on WhatsApp →',
-    f_privacy: 'Privacy Policy',
-    f_terms: 'Terms of Service',
-    f_support: 'Support',
-    m_title: 'Connect your business',
-    m_sub: '7 days free. No card. Cancel in one click.',
-    m_company: 'Company name',
-    m_name: 'Your name',
-    m_phone: 'Phone',
-    m_pass: 'Password (at least 8 characters)',
-    m_submit: 'Start free',
+    reg_cta: 'Connect business', reg_or: 'or message us on WhatsApp', reg_wa: 'Write on WhatsApp →',
+    f_privacy: 'Privacy Policy', f_terms: 'Terms of Service', f_support: 'Support',
+    m_title: 'Connect your business', m_sub: '7 days free. No card. Cancel in one click.',
+    m_country: 'Country', m_city: 'City', m_btype: 'Business type', m_btype_ph: 'Select type',
+    m_company: 'Company name', m_name: 'Your name', m_phone: 'Phone',
+    m_pass: 'Password (min 8 chars, uppercase, digit)', m_submit: 'Start free',
     m_terms: 'By clicking, you agree to the <a href="https://api.alimon.store/terms" style="color:var(--accent);">terms</a> and <a href="https://api.alimon.store/privacy" style="color:var(--accent);">privacy policy</a>.',
     m_ok_title: 'Welcome to AliMon!',
     m_ok_text: 'Account created. Download the app, sign in, and connect your POS system.',
@@ -1009,7 +1101,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 let turnstileOk = false;
 function onTurnstileSuccess(token) { turnstileOk = true; }
 function onTurnstileExpired() { turnstileOk = false; }
-
 </script>
 
 </body>
