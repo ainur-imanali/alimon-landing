@@ -283,15 +283,23 @@ section .lead {
 
 /* ── Registration Modal ── */
 .modal-overlay {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  /* ← #71.6: было display:flex + align-items:center — flex-центрирование обрезало длинную форму на iPhone.
+     Теперь overlay сам скролл-контейнер: верх/низ формы и кнопка всегда достижимы. */
+  position: fixed; inset: 0;
   background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-  z-index: 200; display: flex; align-items: center; justify-content: center;
-  padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  z-index: 200;
+  display: block;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 24px 24px 48px;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
 }
 .modal-overlay.open { opacity: 1; pointer-events: all; }
 .modal {
+  /* ← #71.6: + margin:0 auto — горизонтальный центр при display:block у overlay */
   background: var(--bg2); border: 1px solid var(--border);
   border-radius: 20px; padding: 36px 28px; max-width: 420px; width: 100%;
+  margin: 0 auto;
   transform: translateY(20px); transition: transform 0.3s;
 }
 .modal-overlay.open .modal { transform: translateY(0); }
