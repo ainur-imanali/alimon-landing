@@ -13,7 +13,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300E87A'/><text x='6' y='23' font-size='20' font-weight='900' fill='%23080C14'>A</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* AliMon Landing v3.2 (#72 · 3 июня 2026) — 3 двери client_type + динамические поля */
+/* AliMon Landing v3.3 (#72 · 3 июня 2026) — 3 двери client_type + динамические поля */
 
 :root {
   --bg: #080C14;
@@ -752,7 +752,10 @@ footer .copyright {
         <div class="ctype-row">
           <button type="button" class="ctype-btn active" data-ctype="business" onclick="selectClientType('business')" data-i="m_ctype_biz">Свой бизнес</button>
           <button type="button" class="ctype-btn" data-ctype="learning" onclick="selectClientType('learning')" data-i="m_ctype_learn">Учусь</button>
+          <!-- #72: дверь «Консультант» скрыта до Фазы B (переключатель тенантов + Excel + дашборд).
+               Шов цел: client_type='consultant' принимается бэкендом и судьёй. Вернуть = раскомментировать строку ниже.
           <button type="button" class="ctype-btn" data-ctype="consultant" onclick="selectClientType('consultant')" data-i="m_ctype_cons">Консультант</button>
+          -->
         </div>
       </div>
 
@@ -851,7 +854,7 @@ footer .copyright {
 
 <script>
 // ============================================================
-// AliMon Landing v3.2 — Registration + i18n + Country/City
+// AliMon Landing v3.3 — Registration + i18n + Country/City
 // #72 · 3 июня 2026 — 3 двери client_type + динамические поля
 // ============================================================
 
