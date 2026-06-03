@@ -13,7 +13,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300E87A'/><text x='6' y='23' font-size='20' font-weight='900' fill='%23080C14'>A</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* AliMon Landing v3.1 */
+/* AliMon Landing v3.2 (#72 · 3 июня 2026) — 3 двери client_type + динамические поля */
 
 :root {
   --bg: #080C14;
@@ -283,8 +283,7 @@ section .lead {
 
 /* ── Registration Modal ── */
 .modal-overlay {
-  /* ← #71.6: было display:flex + align-items:center — flex-центрирование обрезало длинную форму на iPhone.
-     Теперь overlay сам скролл-контейнер: верх/низ формы и кнопка всегда достижимы. */
+  /* #71.6: overlay сам скролл-контейнер — кнопка всегда достижима на iPhone */
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
   z-index: 200;
@@ -296,7 +295,6 @@ section .lead {
 }
 .modal-overlay.open { opacity: 1; pointer-events: all; }
 .modal {
-  /* ← #71.6: + margin:0 auto — горизонтальный центр при display:block у overlay */
   background: var(--bg2); border: 1px solid var(--border);
   border-radius: 20px; padding: 36px 28px; max-width: 420px; width: 100%;
   margin: 0 auto;
@@ -392,6 +390,20 @@ footer .copyright {
 .form-half { flex: 1; }
 @media (max-width: 600px) {
   .form-row { flex-direction: column; gap: 0; }
+}
+
+/* ── Client-type segment (3 двери · #72) ── */
+.ctype-row { display: flex; gap: 8px; }
+.ctype-btn {
+  flex: 1; padding: 12px 8px; font-size: 13px; font-weight: 600;
+  font-family: var(--body); color: var(--text2);
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; cursor: pointer; transition: all 0.2s;
+}
+.ctype-btn:hover { border-color: var(--accent-glow); }
+.ctype-btn.active {
+  color: var(--accent); border-color: var(--accent);
+  background: var(--accent-dim);
 }
 
 /* ── Responsive ── */
@@ -734,6 +746,16 @@ footer .copyright {
       <h2 id="regModalTitle" data-i="m_title">Подключить бизнес</h2>
       <p class="modal-sub" data-i="m_sub">7 дней бесплатно. Без карты. Отмена в один клик.</p>
 
+      <!-- ── 3 двери (client_type) · #72 ── -->
+      <div class="form-group">
+        <label data-i="m_ctype">Чем вы пользуетесь AliMon?</label>
+        <div class="ctype-row">
+          <button type="button" class="ctype-btn active" data-ctype="business" onclick="selectClientType('business')" data-i="m_ctype_biz">Свой бизнес</button>
+          <button type="button" class="ctype-btn" data-ctype="learning" onclick="selectClientType('learning')" data-i="m_ctype_learn">Учусь</button>
+          <button type="button" class="ctype-btn" data-ctype="consultant" onclick="selectClientType('consultant')" data-i="m_ctype_cons">Консультант</button>
+        </div>
+      </div>
+
       <div class="form-row">
         <div class="form-group form-half">
           <label data-i="m_country">Страна</label>
@@ -757,7 +779,8 @@ footer .copyright {
         </div>
       </div>
 
-      <div class="form-group">
+      <!-- Тип деятельности — виден для business и consultant, скрыт для learning -->
+      <div class="form-group" id="grpBusinessType">
         <label data-i="m_btype">Тип бизнеса</label>
         <select id="regBusinessType" class="form-select">
           <option value="" data-i="m_btype_ph">Выберите тип</option>
@@ -773,8 +796,9 @@ footer .copyright {
         <div class="form-error" id="errBusinessType"></div>
       </div>
 
-      <div class="form-group">
-        <label data-i="m_company">Название компании</label>
+      <!-- Название: подпись/плейсхолдер меняются по типу; скрыто для consultant -->
+      <div class="form-group" id="grpCompany">
+        <label id="lblCompany" data-i="m_company">Название компании</label>
         <input type="text" id="regCompany" placeholder="ТОО Мой Бизнес" autocomplete="organization">
         <div class="form-error" id="errCompany"></div>
       </div>
@@ -827,11 +851,49 @@ footer .copyright {
 
 <script>
 // ============================================================
-// AliMon Landing v3.1 — Registration + i18n + Country/City
-// Session #55 · 28 May 2026
+// AliMon Landing v3.2 — Registration + i18n + Country/City
+// #72 · 3 июня 2026 — 3 двери client_type + динамические поля
 // ============================================================
 
 const API = 'https://api.alimon.store/api/v1/auth/register';
+
+// ── Client type (3 двери · #72) ──
+// business  → «Название компании» + тип деятельности
+// learning  → «Учебное заведение» (необязательно) + тип (что изучает)
+// consultant→ компания скрыта, тип деятельности остаётся
+let selectedClientType = 'business';
+
+function selectClientType(type) {
+  selectedClientType = type;
+  document.querySelectorAll('.ctype-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-ctype') === type);
+  });
+  applyClientTypeFields();
+}
+
+// Перестраивает поля формы под выбранный тип. Вызывается при выборе двери
+// и при смене языка (чтобы подписи остались корректными).
+function applyClientTypeFields() {
+  const lang = currentLang;
+  const grpCompany = document.getElementById('grpCompany');
+  const lblCompany = document.getElementById('lblCompany');
+  const inpCompany = document.getElementById('regCompany');
+
+  if (selectedClientType === 'consultant') {
+    // Консультант: компания скрыта (заведёт фирмы позже через Excel)
+    grpCompany.style.display = 'none';
+  } else if (selectedClientType === 'learning') {
+    // Учусь: «Учебное заведение», необязательно
+    grpCompany.style.display = 'block';
+    lblCompany.textContent = lang === 'ru' ? 'Учебное заведение (необязательно)' : 'School / University (optional)';
+    inpCompany.placeholder = lang === 'ru' ? 'Например: КазНУ' : 'e.g. University';
+  } else {
+    // Бизнес: как было
+    grpCompany.style.display = 'block';
+    lblCompany.textContent = lang === 'ru' ? 'Название компании' : 'Company name';
+    inpCompany.placeholder = lang === 'ru' ? 'ТОО Мой Бизнес' : 'My Company LLC';
+  }
+}
 
 // ── Country → Cities mapping ──
 const COUNTRY_CITIES = {
@@ -864,7 +926,6 @@ function onCountryChange() {
     citySelect.appendChild(opt);
   });
 
-  // Update phone placeholder
   const phoneInput = document.getElementById('regPhone');
   phoneInput.placeholder = PHONE_MASKS[country] || '+XXX XXX XXX XXXX';
 }
@@ -881,7 +942,7 @@ async function detectCountry() {
   } catch { /* silent — default KZ */ }
 }
 
-// Init cities on page load
+// Init on page load
 onCountryChange();
 detectCountry();
 
@@ -893,6 +954,7 @@ function openRegister() {
   document.getElementById('regGlobalError').style.display = 'none';
   document.getElementById('regSubmit').disabled = false;
   document.getElementById('regSubmit').textContent = currentLang==='ru' ? 'Начать бесплатно' : 'Start free';
+  applyClientTypeFields(); // привести поля к текущему типу
   document.getElementById('regModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -921,16 +983,18 @@ async function submitRegister() {
     password: document.getElementById('regPassword').value,
   };
 
-  // Clear errors
   document.querySelectorAll('.form-error').forEach(e => { e.style.display='none'; e.textContent=''; });
   document.getElementById('regGlobalError').style.display = 'none';
 
-  // Validate
   let valid = true;
   const lang = currentLang;
+  const isConsultant = selectedClientType === 'consultant';
+  const isLearning = selectedClientType === 'learning';
 
-  if (!fields.businessType) { showErr('errBusinessType', lang==='ru'?'Выберите тип бизнеса':'Select business type'); valid=false; }
-  if (!fields.company) { showErr('errCompany', lang==='ru'?'Укажите название компании':'Enter company name'); valid=false; }
+  // Тип деятельности обязателен для business и consultant; для learning — нет
+  if (!isLearning && !fields.businessType) { showErr('errBusinessType', lang==='ru'?'Выберите тип':'Select type'); valid=false; }
+  // Название компании обязательно только для business (у learning необязательно, у consultant скрыто)
+  if (selectedClientType === 'business' && !fields.company) { showErr('errCompany', lang==='ru'?'Укажите название компании':'Enter company name'); valid=false; }
   if (!fields.name) { showErr('errName', lang==='ru'?'Укажите ваше имя':'Enter your name'); valid=false; }
   if (!fields.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) { showErr('errEmail', lang==='ru'?'Укажите корректный email':'Enter valid email'); valid=false; }
   if (!fields.phone || fields.phone.length < 10) { showErr('errPhone', lang==='ru'?'Укажите телефон':'Enter phone number'); valid=false; }
@@ -938,12 +1002,16 @@ async function submitRegister() {
 
   if (!valid) return;
 
-  // Turnstile check
   const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
   if (!turnstileToken) {
     showErr('errTurnstile', lang==='ru' ? 'Пожалуйста, подтвердите что вы не робот' : 'Please verify you are not a robot');
     return;
   }
+
+  // holdingName: для consultant компании нет — даём осмысленный дефолт по имени
+  let holdingName = fields.company;
+  if (isConsultant) holdingName = (lang==='ru' ? 'Практика — ' : 'Practice — ') + fields.name;
+  if (isLearning && !holdingName) holdingName = (lang==='ru' ? 'Учёба — ' : 'Study — ') + fields.name;
 
   btn.disabled = true;
   btn.textContent = lang==='ru' ? 'Создаём аккаунт...' : 'Creating account...';
@@ -953,14 +1021,15 @@ async function submitRegister() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        holdingName: fields.company,
+        holdingName: holdingName,
         name: fields.name,
         email: fields.email,
         phone: fields.phone,
         password: fields.password,
         countryCode: fields.countryCode,
         city: fields.city,
-        businessType: fields.businessType,
+        businessType: isLearning ? null : fields.businessType,
+        clientType: selectedClientType,   // ← #72: 3 двери
         turnstileToken: turnstileToken,
       }),
     });
@@ -976,7 +1045,6 @@ async function submitRegister() {
       return;
     }
 
-    // Success
     document.getElementById('regForm').style.display = 'none';
     document.getElementById('regSuccess').classList.add('success');
 
@@ -1065,6 +1133,8 @@ const translations = {
     m_country: 'Country', m_city: 'City', m_btype: 'Business type', m_btype_ph: 'Select type',
     m_company: 'Company name', m_name: 'Your name', m_phone: 'Phone',
     m_pass: 'Password (min 8 chars, uppercase, digit)', m_submit: 'Start free',
+    m_ctype: 'How do you use AliMon?',
+    m_ctype_biz: 'My business', m_ctype_learn: 'Learning', m_ctype_cons: 'Consultant',
     m_terms: 'By clicking, you agree to the <a href="https://api.alimon.store/terms" style="color:var(--accent);">terms</a> and <a href="https://api.alimon.store/privacy" style="color:var(--accent);">privacy policy</a>.',
     m_ok_title: 'Welcome to AliMon!',
     m_ok_text: 'Account created. Download the app, sign in, and connect your POS system.',
@@ -1093,6 +1163,7 @@ function setLang(lang) {
   });
 
   document.documentElement.lang = lang;
+  applyClientTypeFields(); // подписи динамических полей — на нужном языке
 }
 
 // ── Scroll anchors ──
