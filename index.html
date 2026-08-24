@@ -13,7 +13,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300E87A'/><text x='6' y='23' font-size='20' font-weight='900' fill='%23080C14'>A</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* AliMon Landing v3.1 */
+/* AliMon Landing v3.4 (Phase 1) — Simplified 3-field registration form */
 
 :root {
   --bg: #080C14;
@@ -33,9 +33,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
-
 body {
   font-family: var(--body);
   background: var(--bg);
@@ -44,7 +42,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Utilities ── */
 .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
 .accent { color: var(--accent); }
 .mono { font-family: var(--mono); }
@@ -281,17 +278,22 @@ section .lead {
 }
 .price-cta:hover { opacity: 0.88; }
 
-/* ── Registration Modal ── */
+/* ── Registration Modal (SIMPLIFIED v3.4) ── */
 .modal-overlay {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  position: fixed; inset: 0;
   background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-  z-index: 200; display: flex; align-items: center; justify-content: center;
-  padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  z-index: 200;
+  display: block;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 24px 24px 48px;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
 }
 .modal-overlay.open { opacity: 1; pointer-events: all; }
 .modal {
   background: var(--bg2); border: 1px solid var(--border);
   border-radius: 20px; padding: 36px 28px; max-width: 420px; width: 100%;
+  margin: 0 auto;
   transform: translateY(20px); transition: transform 0.3s;
 }
 .modal-overlay.open .modal { transform: translateY(0); }
@@ -366,24 +368,6 @@ footer a {
 footer a:hover { color: var(--accent); }
 footer .copyright {
   font-size: 12px; color: var(--text3); margin-top: 16px;
-}
-
-/* ── Form selects (Session #55) ── */
-.form-select {
-  width: 100%; padding: 12px 14px; font-size: 15px;
-  font-family: var(--body); color: var(--text);
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 10px; outline: none; transition: border-color 0.2s;
-  appearance: none; -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A6B82' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 14px center;
-  cursor: pointer;
-}
-.form-select:focus { border-color: var(--accent); }
-.form-row { display: flex; gap: 12px; }
-.form-half { flex: 1; }
-@media (max-width: 600px) {
-  .form-row { flex-direction: column; gap: 0; }
 }
 
 /* ── Responsive ── */
@@ -461,7 +445,7 @@ footer .copyright {
   </div>
 </section>
 
-<!-- ══════ SOLUTION — Verdict mockup ══════ -->
+<!-- ══════ SOLUTION ══════ -->
 <section id="solution">
   <div class="container">
     <div class="section-label" data-i="sol_label">Вместо этого</div>
@@ -717,7 +701,7 @@ footer .copyright {
   </div>
 </footer>
 
-<!-- ══════ REGISTRATION MODAL ══════ -->
+<!-- ══════ REGISTRATION MODAL (v3.4: SIMPLIFIED 3 FIELDS) ══════ -->
 <div class="modal-overlay" id="regModal" role="dialog" aria-modal="true" aria-labelledby="regModalTitle">
   <div class="modal" style="position:relative;">
     <button class="modal-close" onclick="closeRegister()">✕</button>
@@ -726,51 +710,7 @@ footer .copyright {
       <h2 id="regModalTitle" data-i="m_title">Подключить бизнес</h2>
       <p class="modal-sub" data-i="m_sub">7 дней бесплатно. Без карты. Отмена в один клик.</p>
 
-      <div class="form-row">
-        <div class="form-group form-half">
-          <label data-i="m_country">Страна</label>
-          <select id="regCountry" class="form-select" onchange="onCountryChange()">
-            <option value="KZ">Казахстан</option>
-            <option value="UZ">Узбекистан</option>
-            <option value="KG">Кыргызстан</option>
-            <option value="TJ">Таджикистан</option>
-            <option value="RU">Россия</option>
-            <option value="AE">ОАЭ / UAE</option>
-            <option value="TR">Türkiye</option>
-            <option value="US">USA</option>
-            <option value="GB">United Kingdom</option>
-          </select>
-        </div>
-        <div class="form-group form-half">
-          <label data-i="m_city">Город</label>
-          <select id="regCity" class="form-select">
-            <option value="">—</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label data-i="m_btype">Тип бизнеса</label>
-        <select id="regBusinessType" class="form-select">
-          <option value="" data-i="m_btype_ph">Выберите тип</option>
-          <option value="restaurant">Рестораны / Кафе</option>
-          <option value="fastfood">Фастфуд / Донерные</option>
-          <option value="coffee">Кофейни</option>
-          <option value="pharmacy">Аптеки</option>
-          <option value="retail">Розничная торговля</option>
-          <option value="service">Услуги</option>
-          <option value="production">Производство</option>
-          <option value="other">Другое</option>
-        </select>
-        <div class="form-error" id="errBusinessType"></div>
-      </div>
-
-      <div class="form-group">
-        <label data-i="m_company">Название компании</label>
-        <input type="text" id="regCompany" placeholder="ТОО Мой Бизнес" autocomplete="organization">
-        <div class="form-error" id="errCompany"></div>
-      </div>
-
+      <!-- ── SIMPLIFIED: 3 FIELDS ONLY (v3.4) ── -->
       <div class="form-group">
         <label data-i="m_name">Ваше имя</label>
         <input type="text" id="regName" placeholder="Ваше имя" autocomplete="name">
@@ -784,12 +724,6 @@ footer .copyright {
       </div>
 
       <div class="form-group">
-        <label data-i="m_phone">Телефон</label>
-        <input type="tel" id="regPhone" placeholder="+7 7XX XXX XX XX" autocomplete="tel">
-        <div class="form-error" id="errPhone"></div>
-      </div>
-
-      <div class="form-group">
         <label data-i="m_pass">Пароль (минимум 8 символов, заглавная, цифра)</label>
         <input type="password" id="regPassword" placeholder="••••••••" autocomplete="new-password">
         <div class="form-error" id="errPassword"></div>
@@ -799,6 +733,7 @@ footer .copyright {
 
       <div class="cf-turnstile" data-sitekey="0x4AAAAAADWFiBuffelfl89A" data-theme="dark" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" style="margin-top:16px;display:flex;justify-content:center;"></div>
       <div class="form-error" id="errTurnstile" style="text-align:center;"></div>
+      
       <button class="form-submit" id="regSubmit" onclick="submitRegister()" data-i="m_submit">Начать бесплатно</button>
 
       <p style="font-size:12px;color:var(--text3);text-align:center;margin-top:16px;line-height:1.5;" data-i="m_terms">
@@ -810,7 +745,7 @@ footer .copyright {
       <h3 data-i="m_ok_title">Добро пожаловать в AliMon!</h3>
       <p style="color:var(--text2);font-size:14px;margin-bottom:20px;" data-i="m_ok_text">Аккаунт создан. Скачайте приложение, войдите и подключите вашу учётную систему.</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-        <a href="https://apps.apple.com/app/alimon/id6744257498" style="color:var(--accent);font-weight:600;font-size:14px;">App Store →</a>
+        <a href="https://apps.apple.com/app/alimon/id6763277442" style="color:var(--accent);font-weight:600;font-size:14px;">App Store →</a>
         <a href="https://wa.me/77077192088?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20AliMon%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%BE%D0%B5%D0%B3%D0%BE%20%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0." target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;font-size:14px;" data-i="m_ok_help">Нужна помощь? →</a>
       </div>
     </div>
@@ -818,64 +753,12 @@ footer .copyright {
 </div>
 
 <script>
-// ============================================================
-// AliMon Landing v3.1 — Registration + i18n + Country/City
-// Session #55 · 28 May 2026
-// ============================================================
+// ════════════════════════════════════════════════════════════════
+// AliMon Landing v3.4 (Phase 1) — Simplified registration
+// #82 · 24 августа 2026 — 3 fields only (name + email + password)
+// ════════════════════════════════════════════════════════════════
 
 const API = 'https://api.alimon.store/api/v1/auth/register';
-
-// ── Country → Cities mapping ──
-const COUNTRY_CITIES = {
-  KZ: ['Алматы','Астана','Шымкент','Караганда','Актобе','Тараз','Павлодар','Атырау','Актау','Семей','Костанай','Кызылорда','Петропавловск','Туркестан','Другой'],
-  UZ: ['Ташкент','Самарканд','Бухара','Наманган','Фергана','Андижан','Другой'],
-  KG: ['Бишкек','Ош','Джалал-Абад','Другой'],
-  TJ: ['Душанбе','Худжанд','Другой'],
-  RU: ['Москва','Санкт-Петербург','Новосибирск','Екатеринбург','Казань','Краснодар','Другой'],
-  AE: ['Dubai','Abu Dhabi','Sharjah','Ajman','Other'],
-  TR: ['Istanbul','Ankara','Izmir','Antalya','Bursa','Other'],
-  US: ['New York','Los Angeles','Chicago','Houston','Miami','Other'],
-  GB: ['London','Manchester','Birmingham','Edinburgh','Other'],
-};
-
-const PHONE_MASKS = {
-  KZ: '+7 7XX XXX XX XX', UZ: '+998 XX XXX XX XX', KG: '+996 XXX XXX XXX',
-  TJ: '+992 XX XXX XX XX', RU: '+7 XXX XXX XX XX', AE: '+971 XX XXX XXXX',
-  TR: '+90 XXX XXX XX XX', US: '+1 XXX XXX XXXX', GB: '+44 XXXX XXX XXX',
-};
-
-function onCountryChange() {
-  const country = document.getElementById('regCountry').value;
-  const citySelect = document.getElementById('regCity');
-  const cities = COUNTRY_CITIES[country] || ['Other'];
-
-  citySelect.innerHTML = '';
-  cities.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c; opt.textContent = c;
-    citySelect.appendChild(opt);
-  });
-
-  // Update phone placeholder
-  const phoneInput = document.getElementById('regPhone');
-  phoneInput.placeholder = PHONE_MASKS[country] || '+XXX XXX XXX XXXX';
-}
-
-// Auto-detect country by IP (best effort, non-blocking)
-async function detectCountry() {
-  try {
-    const res = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) });
-    const data = await res.json();
-    if (data.country_code && COUNTRY_CITIES[data.country_code]) {
-      document.getElementById('regCountry').value = data.country_code;
-      onCountryChange();
-    }
-  } catch { /* silent — default KZ */ }
-}
-
-// Init cities on page load
-onCountryChange();
-detectCountry();
 
 // ── Registration Modal ──
 function openRegister() {
@@ -888,13 +771,16 @@ function openRegister() {
   document.getElementById('regModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+
 function closeRegister() {
   document.getElementById('regModal').classList.remove('open');
   document.body.style.overflow = '';
 }
+
 document.getElementById('regModal').addEventListener('click', function(e) {
   if (e.target === this) closeRegister();
 });
+
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeRegister();
 });
@@ -903,34 +789,27 @@ document.addEventListener('keydown', function(e) {
 async function submitRegister() {
   const btn = document.getElementById('regSubmit');
   const fields = {
-    countryCode: document.getElementById('regCountry').value,
-    city: document.getElementById('regCity').value,
-    businessType: document.getElementById('regBusinessType').value,
-    company: document.getElementById('regCompany').value.trim(),
     name: document.getElementById('regName').value.trim(),
     email: document.getElementById('regEmail').value.trim(),
-    phone: document.getElementById('regPhone').value.trim(),
     password: document.getElementById('regPassword').value,
   };
 
-  // Clear errors
   document.querySelectorAll('.form-error').forEach(e => { e.style.display='none'; e.textContent=''; });
   document.getElementById('regGlobalError').style.display = 'none';
 
-  // Validate
   let valid = true;
   const lang = currentLang;
 
-  if (!fields.businessType) { showErr('errBusinessType', lang==='ru'?'Выберите тип бизнеса':'Select business type'); valid=false; }
-  if (!fields.company) { showErr('errCompany', lang==='ru'?'Укажите название компании':'Enter company name'); valid=false; }
   if (!fields.name) { showErr('errName', lang==='ru'?'Укажите ваше имя':'Enter your name'); valid=false; }
-  if (!fields.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) { showErr('errEmail', lang==='ru'?'Укажите корректный email':'Enter valid email'); valid=false; }
-  if (!fields.phone || fields.phone.length < 10) { showErr('errPhone', lang==='ru'?'Укажите телефон':'Enter phone number'); valid=false; }
-  if (!fields.password || fields.password.length < 8) { showErr('errPassword', lang==='ru'?'Минимум 8 символов, заглавная, цифра':'Min 8 chars, uppercase, digit'); valid=false; }
+  if (!fields.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) { 
+    showErr('errEmail', lang==='ru'?'Укажите корректный email':'Enter valid email'); valid=false; 
+  }
+  if (!fields.password || fields.password.length < 8) { 
+    showErr('errPassword', lang==='ru'?'Минимум 8 символов, заглавная, цифра':'Min 8 chars, uppercase, digit'); valid=false; 
+  }
 
   if (!valid) return;
 
-  // Turnstile check
   const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
   if (!turnstileToken) {
     showErr('errTurnstile', lang==='ru' ? 'Пожалуйста, подтвердите что вы не робот' : 'Please verify you are not a robot');
@@ -945,14 +824,11 @@ async function submitRegister() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        holdingName: fields.company,
+        holdingName: fields.name + ' Business',  // ← default holding name
         name: fields.name,
         email: fields.email,
-        phone: fields.phone,
         password: fields.password,
-        countryCode: fields.countryCode,
-        city: fields.city,
-        businessType: fields.businessType,
+        clientType: 'business',  // ← default type
         turnstileToken: turnstileToken,
       }),
     });
@@ -968,7 +844,6 @@ async function submitRegister() {
       return;
     }
 
-    // Success
     document.getElementById('regForm').style.display = 'none';
     document.getElementById('regSuccess').classList.add('success');
 
@@ -984,7 +859,8 @@ async function submitRegister() {
 
 function showErr(id, msg) {
   const el = document.getElementById(id);
-  el.textContent = msg; el.style.display = 'block';
+  el.textContent = msg; 
+  el.style.display = 'block';
 }
 
 // ── i18n ──
@@ -1054,9 +930,7 @@ const translations = {
     reg_cta: 'Connect business', reg_or: 'or message us on WhatsApp', reg_wa: 'Write on WhatsApp →',
     f_privacy: 'Privacy Policy', f_terms: 'Terms of Service', f_support: 'Support',
     m_title: 'Connect your business', m_sub: '7 days free. No card. Cancel in one click.',
-    m_country: 'Country', m_city: 'City', m_btype: 'Business type', m_btype_ph: 'Select type',
-    m_company: 'Company name', m_name: 'Your name', m_phone: 'Phone',
-    m_pass: 'Password (min 8 chars, uppercase, digit)', m_submit: 'Start free',
+    m_name: 'Your name', m_pass: 'Password (min 8 chars, uppercase, digit)', m_submit: 'Start free',
     m_terms: 'By clicking, you agree to the <a href="https://api.alimon.store/terms" style="color:var(--accent);">terms</a> and <a href="https://api.alimon.store/privacy" style="color:var(--accent);">privacy policy</a>.',
     m_ok_title: 'Welcome to AliMon!',
     m_ok_text: 'Account created. Download the app, sign in, and connect your POS system.',
