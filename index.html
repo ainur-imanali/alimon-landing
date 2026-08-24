@@ -707,8 +707,8 @@ footer .copyright {
     <button class="modal-close" onclick="closeRegister()">✕</button>
 
     <div id="regForm">
-      <h2 id="regModalTitle" data-i="m_title">Подключить бизнес</h2>
-      <p class="modal-sub" data-i="m_sub">7 дней бесплатно. Без карты. Отмена в один клик.</p>
+      <h2 id="regModalTitle" data-i="m_title">Ali будет вашим наставником</h2>
+      <p class="modal-sub" data-i="m_sub">Зарегистрируйтесь — и Ali начнёт учить вас думать как предприниматель. Затем подключите свой бизнес. 7 дней бесплатно · без карты · просто.</p>
 
       <!-- ── SIMPLIFIED: 3 FIELDS ONLY (v3.4) ── -->
       <div class="form-group">
@@ -824,11 +824,11 @@ async function submitRegister() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        holdingName: fields.name + ' Business',  // ← default holding name
+        holdingName: fields.name,  // ← просто имя default holding name
         name: fields.name,
         email: fields.email,
         password: fields.password,
-        clientType: 'business',  // ← default type
+        clientType: 'personal',  // ← жестко personal для всех (как mobile)
         turnstileToken: turnstileToken,
       }),
     });
@@ -929,8 +929,8 @@ const translations = {
     reg_sub: 'Register — and AliMon will start watching your business.',
     reg_cta: 'Connect business', reg_or: 'or message us on WhatsApp', reg_wa: 'Write on WhatsApp →',
     f_privacy: 'Privacy Policy', f_terms: 'Terms of Service', f_support: 'Support',
-    m_title: 'Connect your business', m_sub: '7 days free. No card. Cancel in one click.',
-    m_name: 'Your name', m_pass: 'Password (min 8 chars, uppercase, digit)', m_submit: 'Start free',
+    m_title: 'Ali will be your mentor',
+    m_sub: 'Sign up — and Ali will teach you to think like an entrepreneur. Then connect your business. 7 days free · no card · simple.',
     m_terms: 'By clicking, you agree to the <a href="https://api.alimon.store/terms" style="color:var(--accent);">terms</a> and <a href="https://api.alimon.store/privacy" style="color:var(--accent);">privacy policy</a>.',
     m_ok_title: 'Welcome to AliMon!',
     m_ok_text: 'Account created. Download the app, sign in, and connect your POS system.',
