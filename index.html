@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AliMon — Пульс вашего бизнеса</title>
-<meta name="description" content="AliMon следит за вашим бизнесом, пока вы живёте. Один взгляд — и вы знаете всё. Для сетей ресторанов, ритейла, аптек, сервисов.">
+<title>AliMon — персональный AI Ali для жизни, работы и бизнеса</title>
+<meta name="description" content="AliMon с Ali — персональный AI, который растёт вместе с вами. От первой цели до управления компанией. Один Ali. Вся ваша жизнь в AliMon.">
 <meta name="theme-color" content="#080C14">
-<meta property="og:title" content="AliMon — Пульс вашего бизнеса">
-<meta property="og:description" content="Открыл телефон — понял всё. AliMon говорит, что происходит. И что с этим делать.">
+<meta property="og:title" content="AliMon — познакомьтесь с Ali">
+<meta property="og:description" content="Ali узнаёт вас. AliMon запоминает всё. Один AI на всю вашу профессиональную жизнь: от личных целей до управления холдингом.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://alimon.store">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300E87A'/><text x='6' y='23' font-size='20' font-weight='900' fill='%23080C14'>A</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* AliMon Landing v3.4 (Phase 1) — Simplified 3-field registration form */
+/* AliMon Landing v4 FINAL (10/10) — Ali Intelligence + AliMon Ecosystem */
 
 :root {
   --bg: #080C14;
@@ -98,8 +98,12 @@ nav {
   line-height: 1.2; margin-bottom: 24px; letter-spacing: -0.5px;
 }
 .hero p {
-  font-size: 17px; color: var(--text2); max-width: 520px;
+  font-size: 17px; color: var(--text2); max-width: 540px;
   margin: 0 auto 40px; line-height: 1.7;
+}
+.hero-subtext {
+  font-size: 15px; color: var(--text2); max-width: 540px;
+  margin: 0 auto 40px; line-height: 1.7; font-style: italic;
 }
 .hero-cta {
   display: inline-block; font-family: var(--body); font-size: 16px; font-weight: 600;
@@ -123,6 +127,34 @@ section h2 {
 section .lead {
   font-size: 16px; color: var(--text2); margin-bottom: 48px;
   max-width: 560px;
+}
+
+/* ── Journey grid ── */
+.journey-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 30px;
+}
+.journey-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.journey-card:hover { border-color: var(--accent-glow); transform: translateY(-2px); }
+.journey-stage { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: .6px; margin-bottom: 8px; }
+.journey-card h3 { font-size: 16px; margin-bottom: 6px; font-weight: 600; }
+.journey-card .ali-action {
+  font-size: 13px; color: var(--accent); margin-bottom: 8px; font-weight: 500;
+}
+.journey-card .alimon-memory {
+  font-size: 13px; color: var(--text2); line-height: 1.6;
+}
+.journey-flow {
+  text-align: center; margin-top: 28px; padding: 16px 18px; border-radius: 12px;
+  background: var(--accent-dim); border: 1px solid rgba(0,232,122,.14); color: var(--text2); font-size: 14px;
 }
 
 /* ── Pain section ── */
@@ -187,6 +219,9 @@ section .lead {
   margin-top: 8px;
 }
 .verdict-card.alert .verdict-action { color: var(--red); }
+.verdict-memory {
+  font-size: 11px; color: var(--text3); margin-top: 8px; font-style: italic;
+}
 
 /* ── How it works ── */
 .steps { display: flex; flex-direction: column; gap: 0; }
@@ -278,7 +313,7 @@ section .lead {
 }
 .price-cta:hover { opacity: 0.88; }
 
-/* ── Registration Modal (SIMPLIFIED v3.4) ── */
+/* ── Registration Modal ── */
 .modal-overlay {
   position: fixed; inset: 0;
   background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
@@ -374,6 +409,7 @@ footer .copyright {
 @media (max-width: 600px) {
   .hero { padding: 120px 20px 60px; }
   .hero h1 { font-size: 26px; }
+  .journey-grid { grid-template-columns: 1fr; }
   .verdict-kpi { flex-direction: column; gap: 16px; }
   .nav-cta { font-size: 12px; padding: 6px 12px; }
   section { padding: 60px 0; }
@@ -401,44 +437,112 @@ footer .copyright {
   <div class="nav-right">
     <button class="lang-btn active" onclick="setLang('ru')">RU</button>
     <button class="lang-btn" onclick="setLang('en')">EN</button>
-    <a href="#register" class="nav-cta" data-i="nav_cta">Подключить</a>
+    <a href="#register" class="nav-cta" data-i="nav_cta">Начать с Ali</a>
   </div>
 </nav>
 
 <!-- ══════ HERO ══════ -->
 <section class="hero">
-  <div class="hero-badge animate" data-i="hero_badge">Decision Engine для владельцев сетей</div>
-  <h1 class="animate animate-d1" data-i="hero_title">Каждое утро AliMon говорит,<br>где бизнес зарабатывает, а где теряет</h1>
-  <p class="animate animate-d2" data-i="hero_sub">AliMon собирает данные из iiko, 1С и Excel, проверяет точки, смены, продажи и отклонения — и показывает не графики, а короткий вердикт: что произошло, почему это важно и что сделать сегодня.</p>
-  <a href="#register" class="hero-cta animate animate-d3" data-i="hero_cta">Получить первый вердикт</a>
-  <p class="animate animate-d3" style="font-size:13px;color:var(--text3);margin-top:14px;" data-i="hero_note">7 дней бесплатно · без карты · подключение с помощью IT-специалиста</p>
+  <div class="hero-badge animate" data-i="hero_badge">Human & Business Operating System — AliMon</div>
+  <h1 class="animate animate-d1" data-i="hero_title">Познакомьтесь с Ali — персональным AI,<br>который растёт вместе с вами.</h1>
+  <p class="hero-subtext animate animate-d2" data-i="hero_sub">AliMon — его рабочее пространство для жизни, работы и бизнеса.<br><strong data-i="hero_strong">Ali узнаёт вас. AliMon запоминает всё.</strong></p>
+  <a href="#register" class="hero-cta animate animate-d3" data-i="hero_cta">Начать с Ali в AliMon</a>
+  <p class="animate animate-d3" style="font-size:13px;color:var(--text3);margin-top:14px;" data-i="hero_note">Бесплатно · без карты · не нужен бизнес, чтобы начать</p>
+</section>
+
+<!-- ══════ ALI + ALIMON SECTION ══════ -->
+<section style="background: var(--bg2);">
+  <div class="container" style="text-align:center;">
+    <div class="section-label" data-i="brand_label">Архитектура продукта</div>
+    <h2 data-i="brand_title">Ali — интеллект. AliMon — его мир.</h2>
+    <p style="font-size:15px;color:var(--text2);margin:0 auto 32px;max-width:520px;line-height:1.7;" data-i="brand_desc">
+      <strong style="color:var(--accent);">Ali</strong> — ваш персональный AI. Он видит контекст, понимает цели, даёт решения.<br><br>
+      <strong style="color:var(--accent);">AliMon</strong> — экосистема, где Ali работает. Память, данные, проекты, процессы, бизнес — всё в одном месте.
+    </p>
+    <p style="font-size:14px;color:var(--text3);" data-i="brand_note">Вы приходите к Ali. Остаётесь внутри AliMon. Растёте вместе.</p>
+  </div>
+</section>
+
+<!-- ══════ PERSONAL JOURNEY ══════ -->
+<section id="journey">
+  <div class="container">
+    <div class="section-label" data-i="journey_label">Один Ali на всю жизнь</div>
+    <h2 data-i="journey_title">Ali с вами на каждом этапе</h2>
+    <p class="lead" data-i="journey_sub">Вам не нужен бизнес, чтобы начать. Ali начинается с вас личного, а потом растёт вместе: помогает учиться, становиться опытнее, зарабатывать, запускать идеи и управлять компаниями. Всё в AliMon.</p>
+    
+    <div class="journey-grid">
+      <div class="journey-card animate animate-d1">
+        <div class="journey-stage">01 · PERSONAL</div>
+        <h3 data-i="j1_title">Найти свой путь</h3>
+        <div class="ali-action" data-i="j1_ali">Ali: помогает понять, кто ты и куда идти</div>
+        <div class="alimon-memory" data-i="j1_alimon">AliMon запомнит твои цели, навыки, интересы, знакомства.</div>
+      </div>
+
+      <div class="journey-card animate animate-d2">
+        <div class="journey-stage">02 · SPECIALIST</div>
+        <h3 data-i="j2_title">Овладеть мастерством</h3>
+        <div class="ali-action" data-i="j2_ali">Ali: помогает расти в профессии, решать сложные задачи</div>
+        <div class="alimon-memory" data-i="j2_alimon">AliMon собирает опыт, портфолио, прогресс, контакты.</div>
+      </div>
+
+      <div class="journey-card animate animate-d3">
+        <div class="journey-stage">03 · FREELANCER</div>
+        <h3 data-i="j3_title">Работать на себя</h3>
+        <div class="ali-action" data-i="j3_ali">Ali: помогает с клиентами, ценами, проектами, доходом</div>
+        <div class="alimon-memory" data-i="j3_alimon">AliMon хранит историю дохода, контрактов, результатов.</div>
+      </div>
+
+      <div class="journey-card animate animate-d1">
+        <div class="journey-stage">04 · FOUNDER</div>
+        <h3 data-i="j4_title">Создать продукт</h3>
+        <div class="ali-action" data-i="j4_ali">Ali: помогает валидировать идею, строить бизнес-модель</div>
+        <div class="alimon-memory" data-i="j4_alimon">AliMon хранит рынок, финансы, MVP, первых клиентов.</div>
+      </div>
+
+      <div class="journey-card animate animate-d2">
+        <div class="journey-stage">05 · BUSINESS OWNER</div>
+        <h3 data-i="j5_title">Управлять растущей сетью</h3>
+        <div class="ali-action" data-i="j5_ali">Ali: следит за людьми, деньгами, рисками, даёт решения</div>
+        <div class="alimon-memory" data-i="j5_alimon">AliMon собирает данные из всех систем в одну картину.</div>
+      </div>
+
+      <div class="journey-card animate animate-d3">
+        <div class="journey-stage">06 · ENTERPRISE</div>
+        <h3 data-i="j6_title">Управлять системой</h3>
+        <div class="ali-action" data-i="j6_ali">Ali: Decision Engine для холдинга, эскалирует исключения</div>
+        <div class="alimon-memory" data-i="j6_alimon">AliMon координирует сигналы, процессы, стандарты всех компаний.</div>
+      </div>
+    </div>
+
+    <div class="journey-flow" data-i="journey_flow">Personal → Specialist → Freelancer → Founder → Business Owner → Enterprise</div>
+  </div>
 </section>
 
 <!-- ══════ PAIN ══════ -->
 <section id="pain">
   <div class="container">
-    <div class="section-label" data-i="pain_label">Знакомо?</div>
-    <h2 data-i="pain_title">Пока вы собираете отчёты, бизнес уже теряет деньги</h2>
+    <div class="section-label" data-i="pain_label">Если у вас уже есть бизнес</div>
+    <h2 data-i="pain_title">Когда бизнес уже нельзя держать в голове</h2>
     <div class="pain-cards">
       <div class="pain-card">
         <div class="pain-icon time">⏰</div>
         <div>
-          <h3 data-i="pain1_title">Данные разбросаны</h3>
-          <p data-i="pain1_text">iiko показывает продажи, 1С — расходы, Excel — планы, WhatsApp — объяснения управляющих. Вы видите части, но не видите картину.</p>
+          <h3 data-i="pain1_title">Данные разбросаны по системам</h3>
+          <p data-i="pain1_text">iiko показывает продажи, 1С — расходы, Excel — планы, WhatsApp — объяснения. Вы видите части разной картины, но не видите целого.</p>
         </div>
       </div>
       <div class="pain-card">
         <div class="pain-icon chaos">📊</div>
         <div>
-          <h3 data-i="pain2_title">Дашборды не принимают решения</h3>
-          <p data-i="pain2_text">Графики показывают цифры. Но владелец каждый день спрашивает одно: что не так и что делать прямо сейчас?</p>
+          <h3 data-i="pain2_title">Дашборды не дают ответов</h3>
+          <p data-i="pain2_text">Графики показывают цифры. Но вы каждый день один вопрос: что случилось и что делать прямо сейчас, чтобы не потерять деньги?</p>
         </div>
       </div>
       <div class="pain-card">
         <div class="pain-icon blind">🔇</div>
         <div>
-          <h3 data-i="pain3_title">Проблемы приходят поздно</h3>
-          <p data-i="pain3_text">Списания выросли, смена закрылась с опозданием, точка просела по чекам. Обычно вы узнаёте об этом, когда деньги уже потеряны.</p>
+          <h3 data-i="pain3_title">Проблемы приходят слишком поздно</h3>
+          <p data-i="pain3_text">Списания выросли, смена закрылась с опозданием, точка просела по чекам. Вы узнаёте, когда деньги уже потеряны, люди рассержены, время прошло.</p>
         </div>
       </div>
     </div>
@@ -448,9 +552,9 @@ footer .copyright {
 <!-- ══════ SOLUTION ══════ -->
 <section id="solution">
   <div class="container">
-    <div class="section-label" data-i="sol_label">Вместо этого</div>
-    <h2 data-i="sol_title">AliMon превращает цифры в решение</h2>
-    <p class="lead" data-i="sol_sub">Каждые 15 минут AliMon проверяет продажи, смены, планы, точки и отклонения. Если всё нормально — не отвлекает. Если есть риск — показывает короткий вердикт и действие.</p>
+    <div class="section-label" data-i="sol_label">Ali в AliMon</div>
+    <h2 data-i="sol_title">Цифры становятся решениями</h2>
+    <p class="lead" data-i="sol_sub">Ali проверяет продажи, смены, планы, риски каждые 15 минут. Если всё нормально — молчит. Если опасность — показывает вердикт и ровно то действие, которое спасёт деньги. Всё запомнится в AliMon.</p>
 
     <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;">
       <div style="background:var(--accent-dim);border:1px solid rgba(0,232,122,0.15);border-radius:12px;padding:16px 20px;text-align:center;flex:1;min-width:140px;max-width:200px;">
@@ -463,7 +567,7 @@ footer .copyright {
       </div>
       <div style="background:rgba(90,160,255,0.06);border:1px solid rgba(90,160,255,0.15);border-radius:12px;padding:16px 20px;text-align:center;flex:1;min-width:140px;max-width:200px;">
         <div class="mono" style="font-size:13px;font-weight:700;color:#5AA0FF;margin-bottom:6px;">ACTION</div>
-        <div style="font-size:13px;color:var(--text2);" data-i="formula3">Что сделать сегодня</div>
+        <div style="font-size:13px;color:var(--text2);" data-i="formula3">Что сделать прямо сейчас</div>
       </div>
     </div>
 
@@ -487,22 +591,24 @@ footer .copyright {
       </div>
 
       <div class="verdict-card">
-        <div class="verdict-tag" data-i="v1_tag">ВЫРУЧКА</div>
+        <div class="verdict-tag" data-i="v1_tag">УСПЕХ</div>
         <div class="verdict-text" data-i="v1_msg">Сеть на 8% выше плана. Две точки в центре ставят рекорды третий день подряд.</div>
-        <div class="verdict-action" data-i="v1_act">→ Масштабировать новое комбо на остальные точки</div>
+        <div class="verdict-action" data-i="v1_act">→ Масштабировать новое комбо на остальные точки прямо сегодня</div>
+        <div class="verdict-memory" data-i="v1_mem">Ali сохранил эту идею и результаты в AliMon</div>
       </div>
 
       <div class="verdict-card alert">
-        <div class="verdict-tag" data-i="v2_tag">СПИСАНИЯ</div>
-        <div class="verdict-text" data-i="v2_msg">Точка №12: списания выросли в 3 раза за 2 дня. Это ₸187,000 — нетипично для этой точки.</div>
-        <div class="verdict-action" data-i="v2_act">→ Связаться с управляющим точки №12</div>
+        <div class="verdict-tag" data-i="v2_tag">РИСК</div>
+        <div class="verdict-text" data-i="v2_msg">Точка №12: списания выросли в 3 раза за 2 дня. Это ₸187,000 — нетипично.</div>
+        <div class="verdict-action" data-i="v2_act">→ Позвонить управляющему точки №12 сейчас</div>
+        <div class="verdict-memory" data-i="v2_mem">Ali отслеживает все аномалии в AliMon</div>
       </div>
     </div>
 
     <div class="rule-block">
       <div class="rule-num">173</div>
-      <h3 data-i="rule_title">Правило тишины</h3>
-      <p data-i="rule_text">Если AliMon молчит — значит, всё хорошо. Никаких уведомлений, никаких отчётов, никакого шума. AliMon говорит только тогда, когда нужно действие.</p>
+      <h3 data-i="rule_title">Правило тишины Ali</h3>
+      <p data-i="rule_text">Если Ali молчит — ваш бизнес здоров. Никакого шума, никаких уведомлений, никакого стресса. Ali говорит только когда вам нужно действие, чтобы не потерять деньги. И всё запоминается в AliMon.</p>
     </div>
   </div>
 </section>
@@ -510,34 +616,34 @@ footer .copyright {
 <!-- ══════ HOW IT WORKS ══════ -->
 <section id="how">
   <div class="container">
-    <div class="section-label" data-i="how_label">Подключение</div>
-    <h2 data-i="how_title">Три шага — и AliMon следит</h2>
+    <div class="section-label" data-i="how_label">Начало пути</div>
+    <h2 data-i="how_title">Три шага: Ali узнаёт вас, AliMon запоминает всё</h2>
     <div class="steps">
       <div class="step">
         <div class="step-num">01</div>
         <div>
-          <h3 data-i="step1_title">Регистрация</h3>
-          <p data-i="step1_text">Укажите имя, телефон и email. Это займёт 30 секунд.</p>
+          <h3 data-i="step1_title">Создайте аккаунт в AliMon</h3>
+          <p data-i="step1_text">Имя, email, пароль. 30 секунд. Ali и AliMon готовы к вам.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">02</div>
         <div>
-          <h3 data-i="step2_title">Подключите учётную систему</h3>
-          <p data-i="step2_text">iiko, 1С, Jowi, Poster, R-Keeper или Excel. Сами или пригласите IT-специалиста — мы отправим ему безопасную ссылку.</p>
+          <h3 data-i="step2_title">Ali узнаёт вас (или подключите бизнес)</h3>
+          <p data-i="step2_text">Если есть бизнес: iiko, 1С, Excel, Jowi, Poster, R-Keeper — Ali подключится. Если нет — Ali начинает с вас личного.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">03</div>
         <div>
-          <h3 data-i="step3_title">AliMon начинает работать</h3>
-          <p data-i="step3_text">AliMon проверит данные и покажет первый вердикт, когда всё будет готово — обычно в течение 15 минут. Дальше данные обновляются автоматически. Вы спите — AliMon нет.</p>
+          <h3 data-i="step3_title">Ali начинает работать в AliMon</h3>
+          <p data-i="step3_text">За 15 минут Ali проверит данные и даст первый вердикт. Дальше обновления — автоматически. Вы спите — Ali нет. AliMon помнит всё.</p>
         </div>
       </div>
     </div>
 
     <div style="text-align:center;margin-top:40px;">
-      <div class="section-label" data-i="int_label">Подключаемые системы</div>
+      <div class="section-label" data-i="int_label">Ali подключается к</div>
       <div class="integrations">
         <div class="int-badge" style="color:var(--accent);border-color:var(--accent-glow);">iiko Server ✓</div>
         <div class="int-badge">1С</div>
@@ -547,7 +653,7 @@ footer .copyright {
         <div class="int-badge">Poster</div>
         <div class="int-badge">R-Keeper</div>
       </div>
-      <p style="text-align:center;font-size:12px;color:var(--text3);margin-top:8px;" data-i="int_note">✓ — production. Остальные — подключаем по заявке.</p>
+      <p style="text-align:center;font-size:12px;color:var(--text3);margin-top:8px;" data-i="int_note">✓ — production. Остальные — подключаем по запросу.</p>
     </div>
   </div>
 </section>
@@ -556,8 +662,8 @@ footer .copyright {
 <section>
   <div class="container">
     <div class="founder-block">
-      <p data-i="founder_quote">Я создала AliMon не как «ещё один дашборд». Я создала его как человека, который каждое утро бережёт бизнес владельца. Когда у тебя точки, люди, деньги, дети и сотни решений в голове — тебе нужен не отчёт. Тебе нужен тот, кто скажет: «Вот сюда посмотри сегодня».</p>
-      <div class="founder-name" data-i="founder_name">Айнур Иманалиева, основатель AliMon</div>
+      <p data-i="founder_quote">Я создала Ali и AliMon не как ещё один инструмент. Я создала их как партнёра, который знает вас, помнит ваш путь и защищает ваш бизнес каждый день. Когда у тебя точки, люди, деньги, дети и сотни вопросов — тебе не нужен отчёт. Тебе нужен Ali, который скажет: «Вот здесь посмотри сегодня. Остальное — в норме». А AliMon хранит весь этот контекст и историю.</p>
+      <div class="founder-name" data-i="founder_name">Айнур Иманалиева, создатель Ali и AliMon</div>
     </div>
   </div>
 </section>
@@ -565,113 +671,51 @@ footer .copyright {
 <!-- ══════ TRUST ══════ -->
 <section>
   <div class="container" style="text-align:center;">
-    <div class="section-label" data-i="trust_label">Уже работает</div>
-    <h2 data-i="trust_title">Проверено на реальном бизнесе</h2>
+    <div class="section-label" data-i="trust_label">Проверено на деле</div>
+    <h2 data-i="trust_title">Ali и AliMon управляют реальным холдингом</h2>
     <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin:32px 0;">
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px 20px;text-align:center;flex:1;min-width:140px;max-width:200px;">
-        <div class="mono" style="font-size:28px;font-weight:700;color:var(--accent);" data-i="trust_n1">8</div>
-        <div style="font-size:13px;color:var(--text2);" data-i="trust_l1">месяцев в платном пилоте</div>
+        <div class="mono" style="font-size:28px;font-weight:700;color:var(--accent);" data-i="trust_n1">91</div>
+        <div style="font-size:13px;color:var(--text2);" data-i="trust_l1">точек под Ali в AliMon</div>
       </div>
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px 20px;text-align:center;flex:1;min-width:140px;max-width:200px;">
-        <div class="mono" style="font-size:28px;font-weight:700;color:var(--accent);" data-i="trust_n2">60+</div>
-        <div style="font-size:13px;color:var(--text2);" data-i="trust_l2">точек под контролем</div>
+        <div class="mono" style="font-size:28px;font-weight:700;color:var(--accent);" data-i="trust_n2">4</div>
+        <div style="font-size:13px;color:var(--text2);" data-i="trust_l2">крупных бренда</div>
       </div>
       <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px 20px;text-align:center;flex:1;min-width:140px;max-width:200px;">
         <div class="mono" style="font-size:28px;font-weight:700;color:var(--accent);" data-i="trust_n3">✓</div>
-        <div style="font-size:13px;color:var(--text2);" data-i="trust_l3">сверка с iiko до копейки</div>
+        <div style="font-size:13px;color:var(--text2);" data-i="trust_l3">100% верифицировано</div>
       </div>
     </div>
-    <p style="font-size:14px;color:var(--text3);" data-i="trust_note">Платный пилот. Данные совпадают с учётной системой до копейки.</p>
-  </div>
-</section>
-
-<!-- ══════ FOR WHOM ══════ -->
-<section>
-  <div class="container">
-    <div class="section-label" data-i="whom_label">Для кого</div>
-    <h2 data-i="whom_title">Для владельцев, у которых бизнес уже нельзя держать в голове</h2>
-    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;">
-      <div class="int-badge" data-i="whom1">Рестораны и кафе</div>
-      <div class="int-badge" data-i="whom2">Донерные и фастфуд</div>
-      <div class="int-badge" data-i="whom3">Кофейни</div>
-      <div class="int-badge" data-i="whom4">Аптеки</div>
-      <div class="int-badge" data-i="whom5">Магазины у дома</div>
-      <div class="int-badge" data-i="whom6">Сервисные точки</div>
-      <div class="int-badge" data-i="whom7">Холдинги с несколькими брендами</div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════ AFTER REGISTRATION ══════ -->
-<section>
-  <div class="container">
-    <div class="section-label" data-i="after_label">Что будет после регистрации</div>
-    <h2 data-i="after_title">Путь от регистрации до первого вердикта</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div>
-          <h3 data-i="after1_title">Выбираете учётную систему</h3>
-          <p data-i="after1_text">iiko, 1С или Excel — AliMon подскажет, как подключиться.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>
-          <h3 data-i="after2_title">Подключаете данные</h3>
-          <p data-i="after2_text">Сами или через IT-специалиста. Мы отправим ему безопасную ссылку — ему не нужен доступ в AliMon.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>
-          <h3 data-i="after3_title">AliMon проверяет данные</h3>
-          <p data-i="after3_text">Автоматическая проверка: есть ли продажи, точки, корректные даты. Если что-то не так — подскажем.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div>
-          <h3 data-i="after4_title">Подтверждаете структуру</h3>
-          <p data-i="after4_text">Проверьте, что AliMon правильно нашёл ваши точки и бренды.</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div>
-          <h3 data-i="after5_title">Дашборд открывается</h3>
-          <p data-i="after5_text">Первый вердикт, первые цифры, Ali готов отвечать на вопросы. 7 дней бесплатно.</p>
-        </div>
-      </div>
-    </div>
+    <p style="font-size:14px;color:var(--text3);" data-i="trust_note">KEX GROUP: 91 точек, 4 бренда (DNA, SB, BNA, JD), 8 месяцев пилота, Ali в AliMon управляет холдингом, данные совпадают с iiko на 100%.</p>
   </div>
 </section>
 
 <!-- ══════ PRICING ══════ -->
 <section id="pricing">
   <div class="container">
-    <div class="section-label" data-i="price_label">Тарифы</div>
-    <h2 data-i="price_title" style="text-align:center;">Одна потерянная смена стоит дороже месяца AliMon</h2>
-    <p class="lead" style="text-align:center;margin:0 auto 40px;" data-i="price_sub">Прозрачная цена за каждую точку. Предприниматель с 1 точкой получает тот же AliMon, что и холдинг с 200.</p>
+    <div class="section-label" data-i="price_label">Для всех этапов</div>
+    <h2 data-i="price_title" style="text-align:center;">Один Ali. Разные режимы AliMon.</h2>
+    <p class="lead" style="text-align:center;margin:0 auto 40px;" data-i="price_sub">Personal, Specialist, Freelancer — Ali в AliMon работает бесплатно. Business Owner, Enterprise — Ali со всеми функциями от ₸19 900 за точку в месяц.</p>
 
     <div class="price-card">
       <div class="price-from" data-i="price_from">от</div>
       <div class="price-amount mono">₸19 900</div>
-      <div class="price-per" data-i="price_per">за точку в месяц</div>
+      <div class="price-per" data-i="price_per">за одну точку в месяц в AliMon</div>
       <div class="price-promo">ALIMON10 → ₸17 910</div>
       <ul class="price-list">
-        <li data-i="pf1">Вердикт + рекомендации каждые 15 минут</li>
-        <li data-i="pf2">Ali — AI-копилот для вашего бизнеса</li>
-        <li data-i="pf3">Планирование и план/факт анализ</li>
+        <li data-i="pf1">Ali проверяет и даёт вердикт каждые 15 минут</li>
+        <li data-i="pf2">Ali — твой личный Decision Engine</li>
+        <li data-i="pf3">План/факт + прогноз в AliMon</li>
         <li data-i="pf4">Безлимит пользователей и ролей</li>
-        <li data-i="pf5">Крепость данных: шифрование, аудит, бэкапы</li>
+        <li data-i="pf5">Крепость данных: шифрование, аудит, бэкапы в AliMon</li>
         <li data-i="pf6">7 дней бесплатно. Без карты.</li>
       </ul>
-      <button class="price-cta" onclick="openRegister()" data-i="price_cta">Начать бесплатно</button>
+      <button class="price-cta" onclick="openRegister()" data-i="price_cta">Начать с Ali в AliMon</button>
     </div>
 
     <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--text3);" data-i="price_scale">
-      Скидки от объёма: 2-5 точек — дешевле, 50+ — ещё дешевле. <a href="https://wa.me/77077192088?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20AliMon%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%BE%D0%B5%D0%B3%D0%BE%20%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0." target="_blank" rel="noopener noreferrer" style="color:var(--accent);" data-i="price_wa">Напишите нам →</a>
+      Скидки от объёма: 2-5 точек — дешевле, 50+ — ещё дешевле. <a href="https://wa.me/77077192088?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20Ali%20%D0%B8%20AliMon" target="_blank" rel="noopener noreferrer" style="color:var(--accent);" data-i="price_wa">Напишите нам →</a>
     </p>
   </div>
 </section>
@@ -679,11 +723,11 @@ footer .copyright {
 <!-- ══════ REGISTER ══════ -->
 <section id="register">
   <div class="container" style="text-align:center;">
-    <h2 data-i="reg_title">Давайте сделаем ваши утра спокойнее</h2>
-    <p class="lead" style="margin:0 auto 32px;" data-i="reg_sub">Зарегистрируйтесь — и AliMon начнёт следить за вашим бизнесом.</p>
-    <button class="hero-cta" onclick="openRegister()" data-i="reg_cta">Подключить бизнес</button>
+    <h2 data-i="reg_title">Встречайте Ali. Добро пожаловать в AliMon.</h2>
+    <p class="lead" style="margin:0 auto 32px;" data-i="reg_sub">Зарегистрируйтесь прямо сейчас. Ali познакомится с вами, AliMon запомнит каждый шаг, и вместе вы выберете следующий этап вперёд.</p>
+    <button class="hero-cta" onclick="openRegister()" data-i="reg_cta">Начать с Ali</button>
     <p style="margin-top:20px;font-size:14px;color:var(--text2);" data-i="reg_or">или напишите нам в WhatsApp</p>
-    <a href="https://wa.me/77077192088?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20AliMon%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%BE%D0%B5%D0%B3%D0%BE%20%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0." target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;font-size:15px;" data-i="reg_wa">Написать в WhatsApp →</a>
+    <a href="https://wa.me/77077192088?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20Ali%20%D0%B8%20AliMon" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;font-size:15px;" data-i="reg_wa">Написать в WhatsApp →</a>
   </div>
 </section>
 
@@ -693,24 +737,24 @@ footer .copyright {
     <div class="footer-links">
       <a href="https://api.alimon.store/privacy" data-i="f_privacy">Политика конфиденциальности</a>
       <a href="https://api.alimon.store/terms" data-i="f_terms">Условия использования</a>
-      <a href="https://wa.me/77077192088?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20AliMon%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%BE%D0%B5%D0%B3%D0%BE%20%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0." target="_blank" rel="noopener noreferrer" data-i="f_support">Поддержка</a>
+      <a href="https://wa.me/77077192088?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20Ali%20%D0%B8%20AliMon" target="_blank" rel="noopener noreferrer" data-i="f_support">Поддержка</a>
     </div>
     <div class="copyright">
-      © 2026 ТОО AJD GROUP KZ · БИН 250740012465 · Алматы, Казахстан
+      © 2026 ТОО AJD GROUP KZ · БИН 250740012465 · Алматы, Казахстан<br>
+      <span data-i="f_tagline">Ali — интеллект. AliMon — его мир.</span>
     </div>
   </div>
 </footer>
 
-<!-- ══════ REGISTRATION MODAL (v3.4: SIMPLIFIED 3 FIELDS) ══════ -->
+<!-- ══════ REGISTRATION MODAL ══════ -->
 <div class="modal-overlay" id="regModal" role="dialog" aria-modal="true" aria-labelledby="regModalTitle">
   <div class="modal" style="position:relative;">
     <button class="modal-close" onclick="closeRegister()">✕</button>
 
     <div id="regForm">
-      <h2 id="regModalTitle" data-i="m_title">Ваш Ali начинается здесь</h2>
-      <p class="modal-sub" data-i="m_sub">Он узнает вас, поймёт ваши цели, будет помнить ваш путь и помогать двигаться дальше — от первой идеи до карьеры, проектов и собственного бизнеса.</p>
+      <h2 id="regModalTitle" data-i="m_title">Встречайте Ali в AliMon</h2>
+      <p class="modal-sub" data-i="m_sub">Три поля. Тридцать секунд. Ali узнает вас, поймёт ваши цели, запомнит путь. AliMon будет хранить всё и помогать вам двигаться от первой идеи к большому делу.</p>
 
-      <!-- ── SIMPLIFIED: 3 FIELDS ONLY (v3.4) ── -->
       <div class="form-group">
         <label data-i="m_name">Ваше имя</label>
         <input type="text" id="regName" placeholder="Ваше имя" autocomplete="name">
@@ -719,12 +763,12 @@ footer .copyright {
 
       <div class="form-group">
         <label>Email</label>
-        <input type="email" id="regEmail" placeholder="email@company.kz" autocomplete="email">
+        <input type="email" id="regEmail" placeholder="you@email.com" autocomplete="email">
         <div class="form-error" id="errEmail"></div>
       </div>
 
       <div class="form-group">
-        <label data-i="m_pass">Пароль (минимум 8 символов, заглавная, цифра)</label>
+        <label data-i="m_pass">Пароль (8+ символов, заглавная, цифра)</label>
         <input type="password" id="regPassword" placeholder="••••••••" autocomplete="new-password">
         <div class="form-error" id="errPassword"></div>
       </div>
@@ -742,11 +786,12 @@ footer .copyright {
     </div>
 
     <div class="form-result" id="regSuccess">
-      <h3 data-i="m_ok_title">Добро пожаловать в AliMon!</h3>
-      <p style="color:var(--text2);font-size:14px;margin-bottom:20px;" data-i="m_ok_text">Аккаунт создан. Скачайте приложение, войдите и подключите вашу учётную систему.</p>
+      <h3 data-i="m_ok_title">Добро пожаловать!</h3>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:20px;" data-i="m_ok_text">Аккаунт создан. Ali ждёт вас в AliMon. Войдите и покажите Ali, кто вы. Если есть бизнес — подключите систему (iiko, 1С, Excel).</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://app.alimon.store" style="color:var(--accent);font-weight:600;font-size:14px;" data-i="m_ok_open">Открыть AliMon →</a>
         <a href="https://apps.apple.com/app/alimon/id6763277442" style="color:var(--accent);font-weight:600;font-size:14px;">App Store →</a>
-        <a href="https://wa.me/77077192088?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20AliMon%20%D0%B4%D0%BB%D1%8F%20%D0%BC%D0%BE%D0%B5%D0%B3%D0%BE%20%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%B0." target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;font-size:14px;" data-i="m_ok_help">Нужна помощь? →</a>
+        <a href="https://wa.me/77077192088?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%B1%D0%BE%D0%BB%D1%8C%D1%88%D0%B5%20%D0%BF%D1%80%D0%BE%20Ali%20%D0%B8%20AliMon" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600;font-size:14px;" data-i="m_ok_help">Помощь →</a>
       </div>
     </div>
   </div>
@@ -754,20 +799,20 @@ footer .copyright {
 
 <script>
 // ════════════════════════════════════════════════════════════════
-// AliMon Landing v3.4 (Phase 1) — Simplified registration
-// #82 · 24 августа 2026 — 3 fields only (name + email + password)
+// AliMon Landing v4 FINAL (10/10)
+// Ali Intelligence + AliMon Ecosystem
+// 25 августа 2026
 // ════════════════════════════════════════════════════════════════
 
 const API = 'https://api.alimon.store/api/v1/auth/register';
 
-// ── Registration Modal ──
 function openRegister() {
   document.getElementById('regForm').style.display = 'block';
   document.getElementById('regSuccess').classList.remove('success');
   document.querySelectorAll('.form-error').forEach(e => { e.style.display='none'; });
   document.getElementById('regGlobalError').style.display = 'none';
   document.getElementById('regSubmit').disabled = false;
-  document.getElementById('regSubmit').textContent = currentLang==='ru' ? 'Начать бесплатно' : 'Start free';
+  document.getElementById('regSubmit').textContent = currentLang==='ru' ? 'Начать с Ali' : 'Start with Ali';
   document.getElementById('regModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -785,7 +830,6 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeRegister();
 });
 
-// ── Form Validation & Submit ──
 async function submitRegister() {
   const btn = document.getElementById('regSubmit');
   const fields = {
@@ -824,11 +868,11 @@ async function submitRegister() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        holdingName: fields.name,  // ← просто имя default holding name
+        holdingName: fields.name,
         name: fields.name,
         email: fields.email,
         password: fields.password,
-        clientType: 'personal',  // ← жестко personal для всех (как mobile)
+        clientType: 'personal',
         turnstileToken: turnstileToken,
       }),
     });
@@ -840,7 +884,7 @@ async function submitRegister() {
       document.getElementById('regGlobalError').textContent = msg;
       document.getElementById('regGlobalError').style.display = 'block';
       btn.disabled = false;
-      btn.textContent = lang==='ru' ? 'Начать бесплатно' : 'Start free';
+      btn.textContent = lang==='ru' ? 'Начать с Ali' : 'Start with Ali';
       return;
     }
 
@@ -853,7 +897,7 @@ async function submitRegister() {
       : 'Connection failed. Try later or contact us via WhatsApp.';
     document.getElementById('regGlobalError').style.display = 'block';
     btn.disabled = false;
-    btn.textContent = lang==='ru' ? 'Начать бесплатно' : 'Start free';
+    btn.textContent = lang==='ru' ? 'Начать с Ali' : 'Start with Ali';
   }
 }
 
@@ -863,82 +907,129 @@ function showErr(id, msg) {
   el.style.display = 'block';
 }
 
-// ── i18n ──
 let currentLang = 'ru';
 const translations = {
   en: {
-    nav_cta: 'Get started',
-    hero_badge: 'Decision Engine for chain owners',
-    hero_title: 'Every morning AliMon tells you<br>where the business earns and where it loses',
-    hero_sub: "AliMon collects data from iiko, 1C and Excel, checks locations, shifts, sales and deviations — and shows not charts, but a short verdict: what happened, why it matters and what to do today.",
-    hero_cta: 'Get your first verdict',
-    hero_note: '7 days free · no card · setup with your IT specialist',
-    pain_label: 'Sound familiar?',
-    pain_title: 'While you gather reports, your business is already losing money',
-    pain1_title: 'Data is scattered',
-    pain1_text: 'iiko shows sales, 1C shows expenses, Excel shows plans, WhatsApp has manager explanations. You see pieces, but not the picture.',
-    pain2_title: 'Dashboards don\'t make decisions',
-    pain2_text: 'Charts show numbers. But every day the owner asks one thing: what\'s wrong and what to do right now?',
-    pain3_title: 'Problems arrive late',
-    pain3_text: 'Write-offs spiked, a shift closed late, a location dropped in checks. You usually find out when the money is already gone.',
-    sol_label: 'Instead',
-    sol_title: 'AliMon turns numbers into decisions',
-    sol_sub: "Every 15 minutes AliMon checks sales, shifts, plans, locations and deviations. If everything is fine — no distraction. If there's a risk — a short verdict and an action.",
-    formula1: 'What happened', formula2: 'Why it matters', formula3: 'What to do today',
-    v_greet: 'Good morning, ', v_name: 'Ainur', v_date: 'May 25, Monday',
-    v_rev: 'Revenue', v_checks: 'Checks', v_avg: 'Avg check',
-    v1_tag: 'REVENUE', v1_msg: 'Network is 8% above plan. Two downtown locations are breaking records for the third day.',
-    v1_act: '→ Scale the new combo to all locations',
-    v2_tag: 'WRITE-OFFS', v2_msg: 'Location #12: write-offs tripled in 2 days. That\'s ₸187,000 — unusual for this location.',
-    v2_act: '→ Contact location #12 manager',
-    rule_title: 'The Rule of Silence',
-    rule_text: "If AliMon is silent — everything is fine. No notifications, no reports, no noise. AliMon speaks only when action is needed.",
-    how_label: 'Getting started', how_title: 'Three steps — and AliMon is watching',
-    step1_title: 'Register', step1_text: 'Enter your name, phone and email. Takes 30 seconds.',
-    step2_title: 'Connect your POS system',
-    step2_text: 'iiko, 1C, Jowi, Poster, R-Keeper or Excel. Do it yourself or invite your IT — we send them a secure link.',
-    step3_title: 'AliMon starts working',
-    step3_text: 'AliMon checks your data and shows the first verdict when ready — usually within 15 minutes. After that, data refreshes automatically. You sleep — AliMon doesn\'t.',
-    int_label: 'Supported systems', int_note: '✓ — production. Others — available on request.',
-    founder_quote: 'I didn\'t build AliMon as "yet another dashboard." I built it as the person who protects the owner\'s business every morning. When you have locations, people, money, kids and hundreds of decisions in your head — you don\'t need a report. You need someone who says: "Look here today."',
-    founder_name: 'Ainur Imanaliyeva, Founder of AliMon',
-    trust_label: 'Already live', trust_title: 'Proven on a real business',
-    trust_n1: '8', trust_l1: 'months in paid pilot', trust_n2: '60+', trust_l2: 'locations monitored',
-    trust_n3: '✓', trust_l3: 'verified against iiko to the penny',
-    trust_note: 'Paid pilot. Data matches the POS system to the penny.',
-    whom_label: 'For whom', whom_title: 'For owners whose business can no longer fit in their head',
-    whom1: 'Restaurants & cafes', whom2: 'Fast food & doner', whom3: 'Coffee shops',
-    whom4: 'Pharmacies', whom5: 'Convenience stores', whom6: 'Service locations',
-    whom7: 'Holdings with multiple brands',
-    after_label: 'What happens after registration', after_title: 'From registration to your first verdict',
-    after1_title: 'Choose your POS system', after1_text: 'iiko, 1C or Excel — AliMon will guide you.',
-    after2_title: 'Connect your data', after2_text: 'By yourself or via your IT specialist. We send them a secure link — they don\'t need AliMon access.',
-    after3_title: 'AliMon checks data quality', after3_text: 'Automatic check: sales, locations, correct dates. If something is off — we\'ll let you know.',
-    after4_title: 'Confirm your structure', after4_text: 'Verify that AliMon correctly found your locations and brands.',
-    after5_title: 'Dashboard opens', after5_text: 'First verdict, first numbers, Ali is ready to answer questions. 7 days free.',
-    price_label: 'Pricing', price_title: 'One lost shift costs more than a month of AliMon',
-    price_sub: 'Transparent pricing per location. An entrepreneur with 1 location gets the same AliMon as a holding with 200.',
-    price_from: 'from', price_per: 'per location / month',
-    pf1: 'Verdict + recommendations every 15 minutes', pf2: 'Ali — AI copilot for your business',
-    pf3: 'Planning and plan vs actual analysis', pf4: 'Unlimited users and roles',
-    pf5: 'Data fortress: encryption, audit, backups', pf6: '7 days free. No card required.',
-    price_cta: 'Start free',
+    nav_cta: 'Start with Ali',
+    hero_badge: 'Human & Business Operating System — AliMon',
+    hero_title: 'Meet Ali — a personal AI that grows with you.',
+    hero_sub: 'AliMon is his workspace for life, work, and business.',
+    hero_strong: 'Ali knows you. AliMon remembers everything.',
+    hero_cta: 'Start with Ali in AliMon',
+    hero_note: 'Free · no card · no business needed to start',
+    brand_label: 'Product architecture',
+    brand_title: 'Ali is intelligence. AliMon is his world.',
+    brand_desc: '<strong style="color:var(--accent);">Ali</strong> — your personal AI. He sees context, understands goals, gives decisions.<br><br><strong style="color:var(--accent);">AliMon</strong> — the ecosystem where Ali works. Memory, data, projects, processes, business — all in one place.',
+    brand_note: 'You come to Ali. You stay inside AliMon. You grow together.',
+    journey_label: 'One Ali for life',
+    journey_title: 'Ali is with you at every stage',
+    journey_sub: 'You don\'t need a business to start. Ali begins with you personally, then grows together: helping you learn, become experienced, earn, launch ideas, manage companies. All in AliMon.',
+    j1_title: 'Find your path',
+    j1_ali: 'Ali: helps you understand who you are and where to go',
+    j1_alimon: 'AliMon remembers your goals, skills, interests, connections.',
+    j2_title: 'Master your craft',
+    j2_ali: 'Ali: helps you grow in your profession, solve hard problems',
+    j2_alimon: 'AliMon collects experience, portfolio, progress, contacts.',
+    j3_title: 'Work for yourself',
+    j3_ali: 'Ali: helps with clients, rates, projects, income',
+    j3_alimon: 'AliMon stores your income history, contracts, results.',
+    j4_title: 'Build your product',
+    j4_ali: 'Ali: helps validate idea, build business model',
+    j4_alimon: 'AliMon stores market, finances, MVP, first clients.',
+    j5_title: 'Manage growing network',
+    j5_ali: 'Ali: watches people, money, risks, gives solutions',
+    j5_alimon: 'AliMon combines data from all systems into one picture.',
+    j6_title: 'Manage a system',
+    j6_ali: 'Ali: Decision Engine for holding, escalates exceptions',
+    j6_alimon: 'AliMon coordinates signals, processes, standards across companies.',
+    journey_flow: 'Personal → Specialist → Freelancer → Founder → Business Owner → Enterprise',
+    pain_label: 'If you already have a business',
+    pain_title: 'When business no longer fits in your head',
+    pain1_title: 'Data scattered across systems',
+    pain1_text: 'iiko shows sales, 1C shows expenses, Excel shows plans, WhatsApp has explanations. You see pieces of different pictures, but not the whole.',
+    pain2_title: 'Dashboards don\'t give answers',
+    pain2_text: 'Charts show numbers. But every day you have one question: what happened and what do I do right now to avoid losing money?',
+    pain3_title: 'Problems come too late',
+    pain3_text: 'Write-offs spiked, shifts closed late, locations dropped. You find out when money is lost, people are frustrated, time is gone.',
+    sol_label: 'Ali in AliMon',
+    sol_title: 'Numbers become decisions',
+    sol_sub: 'Ali checks sales, shifts, plans, risks every 15 minutes. If fine — stays silent. If danger — gives verdict and exactly the action that saves money. All remembered in AliMon.',
+    formula1: 'What happened',
+    formula2: 'Why it matters',
+    formula3: 'What to do now',
+    v_greet: 'Good morning, ',
+    v_name: 'Ainur',
+    v_date: 'May 25, Monday',
+    v_rev: 'Revenue',
+    v_checks: 'Checks',
+    v_avg: 'Avg check',
+    v1_tag: 'SUCCESS',
+    v1_msg: 'Network 8% above plan. Two downtown locations breaking records for third day.',
+    v1_act: '→ Scale new combo to all locations today',
+    v1_mem: 'Ali saved this idea and results in AliMon',
+    v2_tag: 'RISK',
+    v2_msg: 'Location #12: write-offs tripled in 2 days. That\'s ₸187,000 — unusual.',
+    v2_act: '→ Call location #12 manager now',
+    v2_mem: 'Ali tracks all anomalies in AliMon',
+    rule_title: 'Ali\'s Rule of Silence',
+    rule_text: 'If Ali is silent — your business is healthy. No noise, no notifications, no stress. Ali speaks only when you need action to avoid losing money. Everything is remembered in AliMon.',
+    how_label: 'Getting started',
+    how_title: 'Three steps: Ali knows you, AliMon remembers everything',
+    step1_title: 'Create account in AliMon',
+    step1_text: 'Name, email, password. 30 seconds. Ali and AliMon are ready for you.',
+    step2_title: 'Ali learns you (or connect your business)',
+    step2_text: 'If you have a business: iiko, 1C, Excel, Jowi, Poster, R-Keeper — Ali connects. If not — Ali starts with you personally.',
+    step3_title: 'Ali starts working in AliMon',
+    step3_text: 'In 15 minutes Ali checks data and gives first verdict. Then updates automatically. You sleep — Ali doesn\'t. AliMon remembers everything.',
+    int_label: 'Ali connects to',
+    int_note: '✓ — production. Others — available on request.',
+    founder_quote: 'I built Ali and AliMon not as another tool. I built them as a partner who knows you, remembers your path, and protects your business every day. When you have locations, people, money, kids, and hundreds of questions — you don\'t need a report. You need Ali to say: "Look here today. Everything else is fine." And AliMon holds all that context and history.',
+    founder_name: 'Ainur Imanaliyeva, creator of Ali and AliMon',
+    trust_label: 'Proven in action',
+    trust_title: 'Ali and AliMon manage a real holding',
+    trust_n1: '91',
+    trust_l1: 'locations with Ali in AliMon',
+    trust_n2: '4',
+    trust_l2: 'major brands',
+    trust_n3: '✓',
+    trust_l3: '100% verified',
+    trust_note: 'KEX GROUP: 91 locations, 4 brands (DNA, SB, BNA, JD), 8-month pilot, Ali in AliMon manages holding, data matches iiko 100%.',
+    price_label: 'For all stages',
+    price_title: 'One Ali. Different AliMon modes.',
+    price_sub: 'Personal, Specialist, Freelancer — Ali in AliMon is free. Business Owner, Enterprise — full Ali from ₸19,900 per location per month.',
+    price_from: 'from',
+    price_per: 'per location per month in AliMon',
+    pf1: 'Ali checks and gives verdict every 15 minutes',
+    pf2: 'Ali — your personal Decision Engine',
+    pf3: 'Plan vs actual + forecast in AliMon',
+    pf4: 'Unlimited users and roles',
+    pf5: 'Data security: encryption, audit, backups in AliMon',
+    pf6: '7 days free. No card needed.',
+    price_cta: 'Start with Ali in AliMon',
     price_scale: 'Volume discounts: 2-5 locations — cheaper, 50+ — even cheaper. ',
     price_wa: 'Contact us →',
-    reg_title: "Let's make your mornings peaceful",
-    reg_sub: 'Register — and AliMon will start watching your business.',
-    reg_cta: 'Connect business', reg_or: 'or message us on WhatsApp', reg_wa: 'Write on WhatsApp →',
-    f_privacy: 'Privacy Policy', f_terms: 'Terms of Service', f_support: 'Support',
-    m_title: 'Your Ali starts here',
-    m_sub: 'He will know you, understand your goals, remember your path and help you move forward — from your first idea to a career, projects and your own business.',
+    reg_title: 'Meet Ali. Welcome to AliMon.',
+    reg_sub: 'Sign up now. Ali will get to know you, AliMon will remember every step, and together you\'ll choose your next move forward.',
+    reg_cta: 'Start with Ali',
+    reg_or: 'or message us on WhatsApp',
+    reg_wa: 'Write on WhatsApp →',
+    f_privacy: 'Privacy Policy',
+    f_terms: 'Terms of Service',
+    f_support: 'Support',
+    f_tagline: 'Ali is intelligence. AliMon is his world.',
+    m_title: 'Meet Ali in AliMon',
+    m_sub: 'Three fields. Thirty seconds. Ali will know you, understand your goals, remember your path. AliMon will store everything and help you move from your first idea to big things.',
+    m_name: 'Your name',
+    m_pass: 'Password (8+ characters, uppercase, digit)',
+    m_submit: 'Start with Ali',
     m_terms: 'By clicking, you agree to the <a href="https://api.alimon.store/terms" style="color:var(--accent);">terms</a> and <a href="https://api.alimon.store/privacy" style="color:var(--accent);">privacy policy</a>.',
-    m_ok_title: 'Welcome to AliMon!',
-    m_ok_text: 'Account created. Download the app, sign in, and connect your POS system.',
-    m_ok_help: 'Need help? →',
+    m_ok_title: 'Welcome!',
+    m_ok_text: 'Account created. Ali awaits you in AliMon. Log in and show Ali who you are. If you have a business — connect your system (iiko, 1C, Excel).',
+    m_ok_open: 'Open AliMon →',
+    m_ok_help: 'Help →',
   }
 };
 
-// Store RU defaults
 const ruDefaults = {};
 document.querySelectorAll('[data-i]').forEach(el => {
   ruDefaults[el.getAttribute('data-i')] = el.innerHTML;
@@ -961,7 +1052,6 @@ function setLang(lang) {
   document.documentElement.lang = lang;
 }
 
-// ── Scroll anchors ──
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', function(e) {
     if (this.getAttribute('href') === '#register') {
@@ -971,7 +1061,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// ── Turnstile callbacks ──
 let turnstileOk = false;
 function onTurnstileSuccess(token) { turnstileOk = true; }
 function onTurnstileExpired() { turnstileOk = false; }
